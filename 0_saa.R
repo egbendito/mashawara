@@ -1,3 +1,5 @@
+# Example
+# Rscript 0_saa.R v20231215.csv historical 2010 2012 01 06 01 30 4
 # 1. Read inputs and check validity
   # 1.1 Catch arguments from bash
 args <- commandArgs()
@@ -42,7 +44,7 @@ root <- getwd()
     # Check the spatial inputs (either file or a valid state in Nigeria)
 if(grepl(paste0("v", version, ".csv"), aoi)){
   if(!file.exists(paste0(root, "/data/inputs/user/", "v", version, ".csv"))){
-    stop("Please, ensure that a valid file with coordinates (Longitude and latitude columns, in .csv) is located in the user folder.")
+    stop("Please, ensure that a valid file with coordinates (longitude and latitude columns, in .csv) is located in the user folder.")
   }
 } else {
   if(!(aoi %in% c("Kano", "Kaduna"))){

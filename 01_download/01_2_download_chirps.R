@@ -5,7 +5,6 @@ years <- seq(1990, as.integer(format(Sys.Date(), "%Y"))-1)
 pol <- terra::vect("../data/inputs/main/administrative/roi.gpkg", layer = "roi")
 bb <- terra::ext(pol)
 origin<- getwd()
-print(origin)
 
 cat('\n#############################################################################')
 cat('\nstarted CHIRPS')
