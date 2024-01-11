@@ -38,7 +38,6 @@ if(class  == "historical"){
 version <- format(Sys.Date(), "%Y%m%d")
 
 # Note root directory
-setwd("../")
 root <- getwd()
   # 1.2 Check validity of inputs and necessary files
     # Check the spatial inputs (either file or a valid state in Nigeria)

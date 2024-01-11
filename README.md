@@ -6,33 +6,42 @@ This Bash script automates the download of various datasets for a project using 
 
 1. Make the script executable:
 
-    ```bash
-    chmod +x your_script_name.sh
-    ```
+```bash
+chmod +x setup.sh
+```
 
-2. Run the script:
+2. Run the script to prepare the data directory structure and the data:
 
-    ```bash
-    ./your_script_name.sh
-    ```
+    Before is necessary to edit the `R/01_0_download_gadm.R` which downloads GADM data and edit the first line with the ISO3 of the country of interest. Then you can run the `setup.sh` script as:
 
-## Downloaded Datasets
+```bash
+./setup.sh
+```
 
-- **00_0_skeleton.R**: Checks and generates a project skeleton. Verify the Region of Interest (ROI) for proper generation.
+    After this, the `data` directory should contain several sub-directories more and data in them. You can also check `setup.log` for errors or other messages.
 
-- **01_0_download_gadm.R**: Downloads GADM data.
+## Execute DST
 
-- **01_5_download_chirts.R**: Downloads CHIRTS data.
+To execute the tool you only need to run:
 
-- **01_2_download_chirps.R**: Downloads CHIRPS data.
+```bash
+Rscript R/0_saa.R v20240111.csv historical 2010 2012 02 05 01 01 2
+```
 
-- **01_1_download_agera5.R**: Downloads AGERA5 data.
+The arguments of this command are:
 
-- **01_3_download_isda.R**: Downloads ISDA data.
+- **Rscript**: Launch R routines from the terminal
+- **R/0_saa.R**: The path to the "main" script that executes the entire routine
+- **v20240111.csv**: Name of a file containing the locations to be simulated. This file needs to exist under `data/input/user`.
+- **2010**: Start year of the simulation.
+- **2012**: End year of the simulation.
+- **02**: Start month of the simulation.
+- **05**: End month of the simulation.
+- **01**: Start day of the simulation.
+- **01**: End day of the simulation.
+- **2**: Number of parallel processes.
 
-## Log
-
-The script appends all output and errors to `setup.log`. Check this file for details about the download process.
+It is important to execute the tool from the `root` directory. We are working on making this a more flexible tool and put it into and R package.
 
 ## Notes
 
