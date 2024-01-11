@@ -12,7 +12,7 @@ dir.create(path = paste0("../data/inputs/main/weather/forecast/"), recursive = T
 for(year in c(format(Sys.Date(), "%Y"))){
   setwd(origin)
   month <- format(Sys.Date(), "%m")
-  system(paste('python', paste0(root, '/functions/01_download/01_41_s5download.py'), year, month, bb[1,1], bb[2,1], bb[1,2], bb[2,2], sep = ' '))
+  system(paste('python', paste0(root, '/R/01_download/01_41_s5download.py'), year, month, bb[1,1], bb[2,1], bb[1,2], bb[2,2], sep = ' '))
   # Disaggregate forecast aggregations
   disagg <- c("rain", "srad")
   for (var in disagg) {

@@ -17,13 +17,13 @@ dssat.extdata <- function(coords = NULL,
     x = coords[pnt,1]
     y = coords[pnt,2]
     ############################################# EXTRACT DATA FROM DATA SOURCES ############################################
-    # Get soil iSDA data
+    # # Get soil iSDA data
     s <- tryCatch(
       expr = {
-        # Load inputs functions and isda (isda ++)
-        source(paste0(root, "/functions/02_etl/02_01_etl_isda.R"))
+        # # Load inputs functions and isda (isda ++)
+        source(paste0(root, "/R/02_etl/02_01_etl_isda.R"))
         nc.isda <- terra::rast(paste0(paste0(root, "/data/inputs/main/soil/isda/"), "isda.nc"))
-        # Process iSDA data
+        # # Process iSDA data
         solisda <- get.isda(X = x, Y = y, isda = nc.isda) # from isda2DSSAT.R
         isda <- isda2dssat(isda = solisda) # from isda2DSSAT.R
         sol <- DSSAT::read_sol(paste0(root, "/data/inputs/dssat/soil.sol"), id_soil = "IB00720001")
@@ -80,16 +80,16 @@ dssat.extdata <- function(coords = NULL,
     s <- dplyr::mutate(s, PEDON=paste0('ISDA', formatC(width = 6, (as.integer(pnt)-1), flag = "0")))
     DSSAT::write_sol(s, 'SOIL.SOL', append = FALSE)
     ##########################################
-    # Get weather AgERA5 and CHIRPSv2 data
+    # # Get weather AgERA5 and CHIRPSv2 data
     w <- tryCatch(
       expr = {
         if (class == 'historical'){
           # Load ERA5 function
-          source(paste0(root, "/functions/02_etl/02_02_etl_agera5.R"))
+          source(paste0(root, "/R/02_etl/02_02_etl_agera5.R"))
           # Load CHIRPS function
-          source(paste0(root, "/functions/02_etl/02_03_etl_chirps.R"))
+          source(paste0(root, "/R/02_etl/02_03_etl_chirps.R"))
           # Load CHIRTS function
-          source(paste0(root, "/functions/02_etl/02_06_etl_chirts.R"))
+          source(paste0(root, "/R/02_etl/02_06_etl_chirts.R"))
           wth <- agera5(startDate = sdate, endDate = edate, coordPoints = data.frame("X" = x, "Y" = y))[c("dates",
                                                                                                           "WIND","TMIN","TMAX","RHUM","SRAD")]
           colnames(wth) <- c("DATE",
@@ -107,7 +107,7 @@ dssat.extdata <- function(coords = NULL,
           wth
         } else {
           # Load ERA5 function
-          source(paste0(root, "/functions/02_etl/02_05_etl_ecmwfs5.R"))
+          source(paste0(root, "/R/02_etl/02_05_etl_ecmwfs5.R"))
           wth <- ecmwf.s5(startDate = sdate, endDate = edate, coordPoints = data.frame("X" = x, "Y" = y))[c("dates",
                                                                                                             "WIND","TMIN","TMAX","RHUM","SRAD","RAIN")]
           colnames(wth) <- c("DATE",
@@ -129,7 +129,7 @@ dssat.extdata <- function(coords = NULL,
         return(err)
       }
     )
-    source(paste0(root, "/functions/03_dssat/_write_wth_custom.R"))
+    source(paste0(root, "/R/03_dssat/_write_wth_custom.R"))
     write_wth_custom(w, paste0("WHTE", formatC(width = 4, (as.integer(pnt)-1), flag = "0"), ".WTH"))
     setwd(path.to.ex)
     gc()

@@ -1,6 +1,4 @@
-cat('\n#############################################################################')
-cat('\nstarted GADM')
-
+# Solidaridad countries
 iso <- c("KEN")
 
 origin<- getwd()
@@ -17,7 +15,8 @@ if(!file.exists("../data/inputs/main/administrative/roi.gpkg")){
 
   # Merge files
   # Check validity of geometries
-  A <- sf::st_read(paste0("../data/inputs/main/administrative/gadm41_", iso[1], ".gpkg"), layer = "ADM_ADM_2", quiet = T)
+  A <- sf::st_read(paste0("../data/inputs/main/administrative/gadm41_", iso[1], ".gpkg"), layer = "ADM_ADM_1", quiet = T)
+  A <- A[A$NAME_1 == "Kwale",]
   files <- list.files("../data/inputs/main/administrative/", pattern = ".gpkg")
   if (length(files) > 1){
     for (f in files[2:length(files)]) {
@@ -34,4 +33,5 @@ if(!file.exists("../data/inputs/main/administrative/roi.gpkg")){
 
 setwd(origin)
 
-cat('\nSuccesfully completed GADM download')
+cat('Succesfully completed GADM download')
+

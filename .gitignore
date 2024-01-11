@@ -1,2 +1,8 @@
 setup.log
 *ipynb_*
+data/inputs/main/
+data/inputs/user/
+data/inputs/culfiles/
+data/inputs/xfiles/
+data/intermediate/
+data/outputs/

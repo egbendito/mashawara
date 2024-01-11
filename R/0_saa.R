@@ -44,7 +44,7 @@ root <- getwd()
     # Check the spatial inputs (either file or a valid state in Nigeria)
 if(grepl(paste0("v", version, ".csv"), aoi)){
   if(!file.exists(paste0(root, "/data/inputs/user/", "v", version, ".csv"))){
-    stop("Please, ensure that a valid file with coordinates (longitude and latitude columns, in .csv) is located in the user folder.")
+    stop("Please, ensure that a valid file with coordinates (Longitude and latitude columns, in .csv) is located in the user folder.")
   }
 } else {
   if(!(aoi %in% c("Kano", "Kaduna"))){
@@ -85,7 +85,7 @@ for (p in 1:nrow(packs)){
   }
 }
 # 3. Source Functions
-funcs <- list.files(paste0(root, "/functions/"),
+funcs <- list.files(paste0(root, "/R/"),
                     recursive = TRUE, full.names = TRUE, include.dirs = FALSE,
                     pattern = paste0(c("02", "03", "04"), collapse = '|'))
 for (func in funcs) {
@@ -99,8 +99,6 @@ if(grepl(paste0("v", version, ".csv"), aoi)){
   gps <- define.regions(iso = "NGA", level = 1, resolution = 0.05)
   gps <- gps[gps$NAME_1 == aoi,]
 }
-
-
   # 4.2 Define the list of years to simulate
 if(class  == "historical"){
   years <- unique(format(seq(as.Date(as.character(format(as.Date(start.Date, "%Y%m%d"), "%Y-%m-%d"))), as.Date(as.character(format(as.Date(end.Date, "%Y%m%d"), "%Y-%m-%d"))), by = "day"), "%Y"))
@@ -125,8 +123,8 @@ cr <-  substr(tools::file_ext(list.files(paste0(root, "/data/inputs/dssat/xfiles
                                          full.names = TRUE)),
               start = 1, stop = 2)
 DSSAT::write_cul(CUL, file_name = paste0("/opt/DSSAT/v4.8.1.40/Genotype/", ifelse(cr == "SB", "SBGRO", "MZCER"), "048.CUL"))
-# DSSAT::write_cul(CUL, file_name = "/opt/DSSAT/v4.8.1.40/Genotype/SBGRO048.CUL")
-# DSSAT::write_cul(CUL, file_name = "/opt/DSSAT/v4.7.5.30/Genotype/MZCER047.CUL")
+# # DSSAT::write_cul(CUL, file_name = "/opt/DSSAT/v4.8.1.40/Genotype/SBGRO048.CUL")
+# # DSSAT::write_cul(CUL, file_name = "/opt/DSSAT/v4.7.5.30/Genotype/MZCER047.CUL")
 # Start simulations
 if(class  == "historical"){
   for (year in years) {
@@ -162,7 +160,7 @@ if(class  == "historical"){
   }
 } else {
   # Download ECMWF data
-  source(paste0(root, "/functions/01_download/", "01_4_s5wrapper.R"))
+  source(paste0(root, "/R/01_download/", "01_4_s5wrapper.R"))
   # Record directory
   dssat.intermediate <- paste0(root, "/data/intermediate/dssat/v", as.character(version), "/forecast")
   # 4.4.1 Execute DSSAT + ETL
