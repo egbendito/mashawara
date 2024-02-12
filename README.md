@@ -1,8 +1,21 @@
-# Data Download Script
+# Mashawara: Multi-crop variety and planting window Decision Support Tool
+
+The Mashawara (Variety and Planting Window Recommendation) Decision Support Tool (DST)
+aims to provide farmers with spatially explicit recommendations on optimal variety and planting window combinations.
+
+For now, this repository contains the procedures to execute the tool, along with the documentation about the tool.
+Some of the software and data dependencies (e.g.: DSSAT) need to be brough into the systems separately.
+In the near future this additional processes are expected to be integrated and refined into the "Tenedor" DST.
+
+Below is a general description of how to utilize Mashawara. For a detailed Mashawara documentation go to
+
+## Data Download Script
+
+After cloning this repository, navigate to the `mashawara` sub-directory and follow steps 1 and 2.
 
 This Bash script automates the download of various datasets for a project using Rscript. The script logs the setup process in a file named `setup.log`.
 
-## Usage
+### 1. Usage
 
 1.Make the script executable:
 
@@ -20,7 +33,7 @@ Before is necessary to edit the `R/01_0_download_gadm.R` which downloads GADM da
 
 After this, the `data` directory should contain several sub-directories more and data in them. You can also check `setup.log` for errors or other messages.
 
-## Execute DST
+### 2. Execute DST
 
 To execute the tool you only need to run:
 
@@ -43,7 +56,7 @@ The arguments of this command are:
 
 It is important to execute the tool from the `root` directory. We are working on making this a more flexible tool and put it into and R package.
 
-## Notes
+### 3. Notes
 
 - Ensure that R and required packages are installed before running the script.
 

@@ -1,8 +1,8 @@
 setup.log
 *ipynb_*
-data/inputs/main/
-data/inputs/user/
-data/inputs/culfiles/
-data/inputs/xfiles/
-data/intermediate/
-data/outputs/
+mashawara/data/inputs/main/
+mashawara/data/inputs/user/
+mashawara/data/inputs/culfiles/
+mashawara/data/inputs/xfiles/
+mashawara/data/intermediate/
+mashawara/data/outputs/
