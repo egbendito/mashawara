@@ -11,6 +11,12 @@
         "url": " /docs/functions.html",
         "author": ""
     },
+    "docs": {
+        "title": "Mashawara",
+        "content": "About Mashawara Mashawara stands for “maize advise” in Hausa language of Northern Nigeria. The tool works as stand-alone software aimed to provide agronomic advisory for multiple crops on opimal time of planting and variety selection. The DST is based on DSSAT software as a backend engine, and implemented with a set of R scripts relying on several other R packages (see dependencies). This software is part of Excellence in Agronomy and was initiated with the support of the Sasakawa use case, thus the name. It has been later expanded to other use cases, regions and crops to provide a dynamic tool easily deployable and updated. The tool is free and open to be used by anyone to reuse extend or improve upn under the CC-BY license. Read more about the license in the license section of this documentation.",
+        "url": " /docs/",
+        "author": ""
+    },
     "": {
         "title": "Mashawara",
         "content": "About Mashawara Mashawara stands for “maize advise” in Hausa language of Northern Nigeria. The tool works as stand-alone software aimed to provide agronomic advisory for multiple crops on opimal time of planting and variety selection. The DST is based on DSSAT software as a backend engine, and implemented with a set of R scripts relying on several other R packages (see dependencies). This software is part of Excellence in Agronomy and was initiated with the support of the Sasakawa use case, thus the name. It has been later expanded to other use cases, regions and crops to provide a dynamic tool easily deployable and updated. The tool is free and open to be used by anyone to reuse extend or improve upn under the CC-BY license. Read more about the license in the license section of this documentation.",

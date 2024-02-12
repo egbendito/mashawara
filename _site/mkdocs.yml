@@ -1,5 +1,5 @@
-site_name: 'Read The Docs Jekyll Theme'
-site_description: 'Port of the Read the Docs theme to Jekyll to use with GitHub Pages.'
+site_name: 'Mashawara RTD'
+site_description: 'Port of Rad-the-docs for Mashawara DST for SAA Use Case of Excellence in Agronomy.'
 repo_url: 'https://github.com/egbendito/jekyll-theme-rtd'
 repo_name: 'GitHub'
 docs_dir: 'docs/'
