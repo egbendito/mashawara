@@ -6,3 +6,10 @@ mashawara/data/inputs/culfiles/
 mashawara/data/inputs/xfiles/
 mashawara/data/intermediate/
 mashawara/data/outputs/
+Gemfile
+Gemfile.lock
+jekyll-theme-rtd.gemspec
+Pipfile
+Pipfile.lock
+Vagrantfile
+
