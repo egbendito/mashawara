@@ -8,9 +8,9 @@ webrick:
 
 # Theme settings
 site_author: Eduardo Garcia Bendito
-repo_url: 'https://github.com/egbendito/jekyll-theme-rtd'
-edit_on_github: true
-github_docs_folder: false
+repo_url: 'https://github.com/egbendito/mashawara'
+edit_on_github: false
+github_docs_folder: true
 sticky_navigation: true
 prev_next_buttons_location: both
 search_enabled: true
