@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Eduardo Garcia Bendito">
+  
+
+  <link rel="shortcut icon" href="http://localhost:4000/assets/img/favicon.ico">
+
+  <title>Data Architecture - Read The Docs Mashawara</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+  <link rel="stylesheet" href="http://localhost:4000/assets/css/theme.css" />
+  <link rel="stylesheet" href="http://localhost:4000/assets/css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github-gist.min.css" />
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+            <a href="http://localhost:4000" class="icon icon-home"> Read The Docs Mashawara</a>
+          <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="/search.html" method="get">
+    <input type="text" name="q" id="search-query" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+                <ul>
+                    <li class="toctree-l1">
+                        <a class="reference internal" href="http://localhost:4000/">Mashawara</a>
+                    </li>
+                </ul>
+    <p class="caption"><span class="caption-text">docs</span></p>
+                <ul>
+                    <li class="toctree-l1">
+                        <a class="reference internal" href="http://localhost:4000/docs/overview.html">Overview</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1">
+                        <a class="reference internal" href="http://localhost:4000/docs/installation.html">Installation</a>
+                    </li>
+                </ul><ul>
+  <li class="toctree-l1 current"><a href="#data-architecture">Data Architecture</a>
+    <ul>
+      <li class="toctree-l2"><a href="#1-inputs">1 Inputs</a>
+        <ul>
+          <li class="toctree-l3"><a href="#11-main">1.1 Main</a></li>
+          <li class="toctree-l3"><a href="#12-dssat">1.2 DSSAT</a></li>
+          <li class="toctree-l3"><a href="#13-user">1.3 User</a></li>
+        </ul>
+      </li>
+      <li class="toctree-l2"><a href="#2-intermediate">2 Intermediate</a></li>
+      <li class="toctree-l2"><a href="#3-outputs">3 Outputs</a></li>
+    </ul>
+  </li>
+</ul>
+
+                <ul>
+                    <li class="toctree-l1">
+                        <a class="reference internal" href="http://localhost:4000/docs/functions.html">Functions</a>
+                    </li>
+                </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="http://localhost:4000">Read The Docs Mashawara</a>
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+        <li><a href="http://localhost:4000">Docs</a>&raquo;</li>
+        <li>Docs &raquo;</li>
+        <li>Data Architecture</li>
+    <li class="wy-breadcrumbs-aside">
+        <a href="https://github.com/egbendito/jekyll-theme-rtd/blob/master/docs/architecture.md" class="icon icon-github" target="_blank"> Edit on GitHub</a>
+    </li>
+  </ul>
+    <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
+        <a href="http://localhost:4000/docs/functions.html" class="btn btn-neutral float-right" title="Functions">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="http://localhost:4000/docs/installation.html" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              <h1 id="data-architecture">Data Architecture</h1>
+
+<p>Each instance of the Mashawara DST starts from a similar structure of the <em>root directory</em>.
+This space has a specific architecture to facilitate the management and use of the tool,
+and users are encouraged to maintain it or keep it to the extent possible. This design
+facilitates the separation between data and processes. Figure 4 describes the architecture
+of the system. It is important to observe the clear separation into 2 main sections:
+data and functions. The folder “data” is the section where the information should be stored,
+and it is described with detail in <a href="#data">1</a>. The folder “functions” contains the scripts and
+processes running in the DST and it is described in <a href="#functions">2</a>.</p>
+
+<p><img width="700" height="500" src="assets/img/str.png" /></p>
+
+<p><em>Figure 2: Architecture of the SAA DST, containing all the necessary components.</em></p>
+
+<h2 id="1-inputs">1 Inputs</h2>
+
+<p>There are data input requirements for the DST to execute, such as environmental information, but also inputs required by DSSAT software,
+or others that need to be provided by the user (such as the locations to simulate). This data is stored under <code class="highlighter-rouge">./data/inputs</code>.
+Again, this has three sub-folders with different characteristics.</p>
+
+<h3 id="11-main">1.1 Main</h3>
+
+<p>The first sub-folder is main, and it is mainly referring to spatial or environmental datasets typically stored as <code class="highlighter-rouge">NetCDF</code> or <code class="highlighter-rouge">GeoTIFF</code> files.
+This directory should be updated using the specific functions to download and source data (see 6.1 Download data).
+At this moment main contains 3 sub-folders: soil, weather and administrative, with a README.md describing the contents.
+Each of these folders contains available databases. Figure 2 indicates the substructure for this folder.
+Unless the user wants to add a specific environmental database, it is better not to add things here.</p>
+
+<p><img width="700" height="500" src="assets/img/dinputs.png" /></p>
+
+<p><em>Figure 3: main folder under data/inputs containing the spatial and environmental databases.</em></p>
+
+<h3 id="12-dssat">1.2 DSSAT</h3>
+
+<p>Another sub-folder is dssat, which stores template format files and input data necessary for DSSAT (figure 7). This includes experimental files (.MZX)
+with template management design for the simulations. These management templates need to be kept track in order to know if the DST runs on a different scenario,
+and thus the files should be deposited using the labeling convention <strong>vYYYYMMDD.MZX</strong>, where:</p>
+<ul>
+  <li><em>v</em>: Indicates a version</li>
+  <li><em>YYYY</em>: Indicates the year of the DST execution</li>
+  <li><em>MM</em>: Indicates the month of the DST execution</li>
+  <li><em>DD</em>: Indicates the day of the DST execution</li>
+  <li><em>.MZX</em>: File extension for DSSAT</li>
+</ul>
+
+<center><img width="500" height="300" src="assets/img/ddssat.png" /></center>
+
+<p><em>Figure 4: The dssat folder with its specific structure containing templates (xfiles, NP_ERR) and the SAA.CUL with the specific varieties part of the DST.</em></p>
+
+<p>Cultivar files (<code class="highlighter-rouge">vYYYMMDD.CUL</code>) are DSSAT files containing genotype coefficients for different crop varieties. These are calibrated coefficients for specific locations,
+or generic ones. In the <code class="highlighter-rouge">dssat</code> sub-folder there should be a versioned .CUL file, following the same name convention of <code class="highlighter-rouge">vYYYYMMDD.CUL</code> which contains the different
+coefficients for the varieties used in the DST. Users should add new varieties with the relevant variables (“VAR#”, “VRNAME”, “P1”, etc) to this file.
+The DST will only execute the varieties included in this file. It is also important to consider that the tool will execute all varieties included in this file.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@VAR#  VRNAME.......... EXPNO   ECO#    P1    P2    P5    G2    G3 PHINT
+!                                        1     2     3     4     5     6
+IF0012 DT STR W             . IB0001 302.0 0.400 805.9 780.0  6.50 40.00
+IF0014 COMP1 SYN NEW        . IB0001 253.3 0.424 794.9 743.3  6.25 38.90
+IF0019 EVDT 99              . IB0001 199.5 0.300 789.0 720.4  6.69 40.00
+</code></pre></div></div>
+
+<h3 id="13-user">1.3 User</h3>
+
+<p>The <strong>user</strong> folder contains data provided by the user. These could be files containing latitude (Y) and longitude (X) coordinates in decimal degrees and WGS84 (EPSG:4326) SRID.
+The first column should refer to the longitude (X) and the second column to latitude (Y). The files should be stored as a (.CSV) with the same labeling convention as the experimental files (.MZX).</p>
+
+<h2 id="2-intermediate">2 Intermediate</h2>
+
+<p>Data produced in the DSSAT component of the DST (component B, <a href="overview.html">figure 1</a>) are stored under <code class="highlighter-rouge">./data/intermediate</code> and this only includes one single sub-flder refering
+to the different DSSAT executions of the DST and are labeled with the versioning indicated in <a href="#12-dssat">1</a>. These are auto-generated sub-directories upon execution of the DST.
+These folders contain a series of directories labeled as EX0000, referring to each location (pair of longitude and latitude) for the simulation.
+Each of these represents a simulated location and contains those DSSAT files in the specific formats of the software, which include .WTH, .SOL, .MZX and .OUT.
+They are generated by the dssat functions (see <a href="#23-dssat">DSSAT</a> under <a href="#functions">Functions</a>) and the user does not need to interact with them.
+The “.OUT” (output files) comprise the crop growth database (<a href="overview.html">figure 1</a>) and are the inputs for the aggregation functions.</p>
+
+<center><img width="500" height="300" src="assets/img/dint.png" /></center>
+
+<h2 id="3-outputs">3 Outputs</h2>
+
+<p>The final outputs of the DST are aggregated results from the DSSAT .OUT crop growth database. These are also auto-generated files following the mentioned naming convention
+and are stored in .CSV tabular format under <code class="highlighter-rouge">./data/outputs</code>. The files contain the final and necessary information for the recommendations:</p>
+<ul>
+  <li><strong>lookup_key</strong>: Location unique identifier</li>
+  <li><strong>var</strong>: Variety recommended</li>
+  <li><strong>pdate</strong>: Planting date to be recommended</li>
+  <li><strong>rank</strong>: for each location the ranking of each variety and planting date recommendation.</li>
+</ul>
+
+
+
+            </div>
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="http://localhost:4000/docs/functions.html" class="btn btn-neutral float-right" title="Functions">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="http://localhost:4000/docs/installation.html" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+    <hr/>
+
+    <div role="contentinfo">
+      <p>
+          © Copyright 2024 Eduardo Garcia Bendito.
+      </p>
+    </div>
+    Built with
+    <a href="https://jekyllrb.com" target="_blank">Jekyll</a>
+    using a <a href="https://github.com/carlosperate/jekyll-theme-rtd" target="_blank">theme</a>
+    based on <a href="https://sphinx-rtd-theme.readthedocs.io" target="_blank">Read the Docs</a>.
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <a href="https://github.com/egbendito/jekyll-theme-rtd" class="fa fa-github" target="_blank" style="float: left; color: #fcfcfc"> GitHub</a>
+        <span><a href="http://localhost:4000/docs/installation.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span style="margin-left: 15px"><a href="http://localhost:4000/docs/functions.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    </span>
+</div>
+
+
+  <script>var base_url = '';</script>
+  <script src="http://localhost:4000/assets/js/jquery-2.1.1.min.js" defer></script>
+  <script src="http://localhost:4000/assets/js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="http://localhost:4000/assets/js/theme.js" defer></script>
+  <script type="text/javascript" defer>
+    hljs.initHighlightingOnLoad();
+    window.addEventListener('load', function() {
+      SphinxRtdTheme.Navigation.enable(true);
+    });
+  </script>
+  <!-- Build Date: 2024-01-29 10:36 -->
+</body>
+</html>
