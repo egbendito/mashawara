@@ -1,6 +1,6 @@
 title: Mashawara RTD
 description: Port of Rad-the-docs for Mashawara DST for SAA Use Case of Excellence in Agronomy.
-remote_theme: egbendito/jekyll-theme-rtd
+remote_theme: egbendito/mashawara/tree/docs
 
 # Theme settings:
 site_author: Eduardo Garcia Bendito
