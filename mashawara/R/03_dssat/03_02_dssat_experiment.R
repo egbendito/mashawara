@@ -28,17 +28,41 @@ dssat.Xdata <- function(coords = NULL,
     # filex <- DSSAT::read_filex(paste0(root, "/data/inputs/dssat/xfiles/v", as.character(version), ".MZX"))
     filex <- DSSAT::read_filex(list.files(paste0(root, "/data/inputs/dssat/xfiles"), pattern = as.character(version), full.names = TRUE))
     # Define Authorship
-    filex$GENERAL$PEOPLE <- "Eduardo Garcia Bendito"
+    filex$GENERAL$PEOPLE <- "Mashawara"
     filex$GENERAL$ADDRESS <- "Excellence in Agronomy Initiative - CGIAR"
     # Define location
     filex$GENERAL$SITE <- paste(paste0("X=", x), paste0("Y=", y), sep = ", ")
     # Define Simulation Controls
+    filex$`SIMULATION CONTROLS`$START <- "S"
     filex$`SIMULATION CONTROLS`$SDATE <- format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
     cc <- substr(tools::file_ext(list.files(paste0(root, "/data/inputs/dssat/xfiles"), pattern = as.character(version), full.names = TRUE)), start = 1, stop = 2)
     filex$`SIMULATION CONTROLS`$RSEED <- ifelse(cc == "SB", as.integer(runif(1, 500, 1000)), as.integer(runif(1, 1500, 2500)))
     filex$`SIMULATION CONTROLS`$IRRIG <- "N"
     filex$`SIMULATION CONTROLS`$FERTI <- "N"
     filex$`SIMULATION CONTROLS`$RESID <- "N"
+    filex$`SIMULATION CONTROLS`$SMODEL <- ifelse(cc == "SB", as.character("CRGRO"), as.character("MZCER"))
+    # Define Simulation Options
+    filex$`SIMULATION CONTROLS`$WATER <- "Y" # Simulate Water Limited Yield ONLY
+    filex$`SIMULATION CONTROLS`$NITRO <- "N"
+    filex$`SIMULATION CONTROLS`$SYMBI <- "N" 
+    filex$`SIMULATION CONTROLS`$PHOSP <- "N"
+    filex$`SIMULATION CONTROLS`$POTAS <- "N"
+    filex$`SIMULATION CONTROLS`$DISES <- "N"
+    filex$`SIMULATION CONTROLS`$CHEM <- "N"
+    filex$`SIMULATION CONTROLS`$TILL <- "N"
+    filex$`SIMULATION CONTROLS`$CO2 <- "N"
+    # Define Simulation Methods
+    filex$`SIMULATION CONTROLS`$WTHER <- "M"
+    filex$`SIMULATION CONTROLS`$INCON <- "M"
+    filex$`SIMULATION CONTROLS`$EVAPO <- "F"
+    filex$`SIMULATION CONTROLS`$INFIL <- "R"
+    filex$`SIMULATION CONTROLS`$HYDRO <- "R"
+    # Define Simulation Management
+    filex$`SIMULATION CONTROLS`$PLANT <- "R"
+    filex$`SIMULATION CONTROLS`$IRRIG <- "N"
+    filex$`SIMULATION CONTROLS`$FERTI <- "N"
+    filex$`SIMULATION CONTROLS`$RESID <- "N"
+    filex$`SIMULATION CONTROLS`$HARVS <- "M"
     # # Define planting date
     pdates <- data.frame(seq(1,length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")), by = 1),
                          format(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week"), "%y%j"),
@@ -78,10 +102,21 @@ dssat.Xdata <- function(coords = NULL,
     filex$`SIMULATION CONTROLS`$HFRST <- format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
     filex$`SIMULATION CONTROLS`$HLAST <- format(as.Date(edate, "%Y-%m-%d"), "%y%j")
     # Add SOIL and WTH references to FileX
-    filex$FIELDS$WSTA<-paste0("WHTE", formatC(width = 4, as.integer((pnt-1)), flag = "0"))
-    filex$FIELDS$ID_SOIL<-paste0('ISDA', formatC(width = 6, as.integer((pnt-1)), flag = "0"))
+    filex$FIELDS$WSTA <- paste0("WHTE", formatC(width = 4, as.integer((pnt-1)), flag = "0"))
+    filex$FIELDS$ID_SOIL <- paste0('ISDA', formatC(width = 6, as.integer((pnt-1)), flag = "0"))
     # Define the initial conditions
-    filex$`INITIAL CONDITIONS`$ICDAT<-format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
+    filex$`INITIAL CONDITIONS`$ICDAT <- format(as.Date(sdate, "%Y-%m-%d") - 21, "%y%j") # Removing 21 days from the first planting date
+    filex$`INITIAL CONDITIONS`$ICRT <- 150L
+    filex$`INITIAL CONDITIONS`$ICND <- -99
+    filex$`INITIAL CONDITIONS`$ICRN <- -99
+    filex$`INITIAL CONDITIONS`$ICRE <- -99
+    filex$`INITIAL CONDITIONS`$ICWD <- -99
+    filex$`INITIAL CONDITIONS`$ICRES <- as.integer(runif(1, 1000, 2000))
+    filex$`INITIAL CONDITIONS`$ICREN <- round(1.10, 2)
+    filex$`INITIAL CONDITIONS`$ICREP <- round(0.1, 2)
+    filex$`INITIAL CONDITIONS`$ICRIP <- 0
+    filex$`INITIAL CONDITIONS`$ICRID <- -99
+    filex$`INITIAL CONDITIONS`$ICNAME <- -99
     # Prepare the treatment levels of FileX
     for (var in v$C) {
       # Define cultivars
