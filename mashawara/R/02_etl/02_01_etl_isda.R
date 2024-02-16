@@ -1,4 +1,5 @@
-get.isda <- function(X = NULL, Y = NULL, isda = NULL){
+get.isda <- function(X = NULL, Y = NULL){
+  isda <- terra::rast(paste0(root, "/data/inputs/main/soil/isda/isda.nc"))
   vars <- c("fcc","clay","sand","silt","texture","db_od","ph_h2o","c_tot","oc","n_tot","p_mehlich3","k_mehlich3","ca_mehlich3","ecec")
   url <- paste0(root, "/data/inputs/main/soil/isda/")
   names(isda) <- gsub(".tif", "", basename(list.files(url, pattern = ".tif")))
