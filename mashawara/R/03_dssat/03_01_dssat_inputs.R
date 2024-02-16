@@ -10,7 +10,7 @@ dssat.extdata <- function(coords = NULL,
   #Set working directory to experiment directory
   setwd(path.to.ex)
   # Process soil & weather
-  foreach::foreach(pnt=seq_along(coords[,1]), .export = ls(globalenv()), .inorder = TRUE, .packages = c("tidyverse", "lubridate")) %dopar% {
+  foreach::foreach(pnt = seq_along(coords[,1]), .export = ls(globalenv()), .inorder = TRUE, .packages = c("tidyverse", "lubridate")) %dopar% {
     dir.create(file.path(paste(path.to.ex,paste0('EXTE', formatC(width = 4, (as.integer(pnt)-1), flag = "0")), sep = "/")))
     setwd(paste(path.to.ex,paste0('EXTE', formatC(width = 4, (as.integer(pnt)-1), flag = "0")), sep = "/"))
     # read coordinates of the point
@@ -22,9 +22,8 @@ dssat.extdata <- function(coords = NULL,
       expr = {
         # # Load inputs functions and isda (isda ++)
         source(paste0(root, "/R/02_etl/02_01_etl_isda.R"))
-        nc.isda <- terra::rast(paste0(paste0(root, "/data/inputs/main/soil/isda/"), "isda.nc"))
         # # Process iSDA data
-        solisda <- get.isda(X = x, Y = y, isda = nc.isda) # from isda2DSSAT.R
+        solisda <- get.isda(X = x, Y = y)
         isda <- isda2dssat(isda = solisda) # from isda2DSSAT.R
         sol <- DSSAT::read_sol(paste0(root, "/data/inputs/dssat/soil.sol"), id_soil = "IB00720001")
         soilid <- dplyr::mutate(sol,
