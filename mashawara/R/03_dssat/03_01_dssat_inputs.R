@@ -96,11 +96,11 @@ dssat.extdata <- function(coords = NULL,
           wth$DATE <- format(as.Date(wth$DATE, "%Y-%m-%d"), format = "%y%j")
           prec <- chirps(startDate = sdate, endDate = edate, coordPoints = data.frame("X" = x, "Y" = y))
           wth$RAIN <- prec$rain
-          # # CHIRTS only has data up to 2016...
-          # if(all(as.integer(format(as.Date(wth$DATE, "%y%j"), format = "%Y")) <= 2016)){
-          #   tmax <- chirts(startDate = sdate, endDate = edate, coordPoints = data.frame("X" = x, "Y" = y))
-          #   wth$TMAX <- tmax$tmax
-          # }
+          # CHIRTS only has data up to 2016...
+          if(all(as.integer(format(as.Date(wth$DATE, "%y%j"), format = "%Y")) <= 2016)){
+            tmax <- chirts(startDate = sdate, endDate = edate, coordPoints = data.frame("X" = x, "Y" = y))
+            wth$TMAX <- tmax$tmax
+          }
           t <- data.frame("INSI" = "ERA5", "LAT" = y, "LONG" = x, "ELEV" = -99, "TAV" = -99, "AMP" = -99, "REFHT" = -99, "WNDHT" = -99)
           attr(wth, "GENERAL") <- t
           wth
