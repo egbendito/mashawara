@@ -103,7 +103,7 @@ dssat.Xdata(coords = data.frame("longitude" = c(9.578), "latitude" = c(10.564)),
 	    path.to.ex = “data/intermediate/dssat/v20231231”)
 ```
 
-This produces the .MZX file using the template *vYYYYMMDD.MZX* (see [Inputs](architecture.html/#1-inputs)) provided by the user in *./data/inputs/dssat/xfiles*. These files look something like:
+This produces the .MZX file using the template *vYYYYMMDD.MZX* (see [Inputs](architecture.html#1-inputs)) provided by the user in *./data/inputs/dssat/xfiles*. These files look something like:
 
 ```
 *EXP.DETAILS: 
