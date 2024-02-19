@@ -141,7 +141,7 @@ dssat.execute(coords = data.frame("longitude" = c(9.578), "latitude" = c(10.564)
 ## 4 Aggregation
 
 The final outputs from the DST are generated through the functions in **./functions/04_aggregation**. There are two processes in this component (C in figure 1): *04_01_aggregation_dssat.R*
-which aggregates DSSAT outputs; and *04_02_aggregation_rank.R* which ranks the aggregated outputs and produces the final look-up table for the DST ([Outputs](architecture.html/#3-outputs)).
+which aggregates DSSAT outputs; and *04_02_aggregation_rank.R* which ranks the aggregated outputs and produces the final look-up table for the DST ([Outputs](architecture.html#3-outputs)).
 Both processes are again automated and part of the processing chain, so the user does not need to explicitly run the scripts. The function 04_01_aggregation_dssat.R reads the DSSAT .OUT files
 for all locations, varieties and planting dates in the DST run, and puts everything into a single temporary table. It is executed as follows:
 
@@ -160,7 +160,7 @@ rank.aggregate(years = c(2020:2023),
 	       path.to.ex = “data/intermediate/dssat/v20231231”)
 ```
 
-Which stores the final DST output in a CSV tabular format in *./data/outputs/* (see [Outputs](architecture.html/#3-outputs)).
+Which stores the final DST output in a CSV tabular format in *./data/outputs/* (see [Outputs](architecture.html#3-outputs)).
 
 ## 5 Executing the DST
 
@@ -168,14 +168,14 @@ To execute the DST, the user can run a command from the terminal.
 
 ```
 jovyan@user:~$ cd /path/to/mashawara/functions
-jovyan@user:/path/to/mashawara/functions$ Rscript 0_saa.R Kano 2022-01-01 2022-12-31 6
+jovyan@user:/path/to/mashawara/functions$ Rscript 0_saa.R v20231105.csv 2005 2023 02 10 01 01 6
 ```
 
 It is recommended to execute the DST from the functions directory, as shown in the first line of the block above. In the example, the **Rscript** command is used to execute R scripts from the terminal,
 in this case, we are executing the **0_saa.R** script, a ‘mother’ script containing all other scripts and putting the different processes together. After this the user needs to provide a set of 4 arguments.
-The first argument is the set of GPS coordinates corresponding to each point simulation (in the example above **Kano**). Optionally, the user can provide a table in CSV format with the file name convention
-(as indicated in [User](#13-user)) and storing it under the relevant user folder. The 2 next arguments are the start and end dates (**2022-01-01** and **2022-12-31** in the example),
-composing the date ranges that the DST will be executed for. This can span over multiple years, and at least, the DST will execute an entire calendar year,
+The first argument is the set of GPS coordinates corresponding to each point simulation (in the example above **v20231105.csv**). Optionally, the user can provide a table in CSV format with the file name convention
+(as indicated in [User](architecture.html#13-user)) and storing it under the relevant user folder. The 2 next arguments are the start and end years (**2005** and **2023** in the example), followed by the months to use (**02** and **10**) and the start and end days, in this case the first of both months (**01** and **01**).
+Altogether, composing the date ranges that the DST will be executed for. This can span over multiple years, and at least, the DST will execute an entire calendar year,
 even if the year is the same both at the start and end dates. Finally, the user needs to provide the number of parallel processes to be executed (**6** in the example).
 This process also checks that the input requirements are met, including the .MZX file with the appropriate name, and will write the intermediate and final outputs in the relevant folders.
 
