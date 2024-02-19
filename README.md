@@ -31,7 +31,7 @@ Before is necessary to edit the `R/01_0_download_gadm.R` which downloads GADM da
 ./setup.sh
 ```
 
-After this, the `data` directory should contain several sub-directories more and data in them. You can also check `setup.log` for errors or other messages.
+After this, the `data` directory should contain several sub-directories with more and data in them. You can also check `setup.log` for errors or other messages.
 
 ### 2. Execute DST
 
