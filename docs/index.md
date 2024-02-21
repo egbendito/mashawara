@@ -13,5 +13,5 @@ software as a backend engine, and implemented with a set of [R](https://www.r-pr
 with the support of the [Sasakawa use case](), thus the name. It has been later expanded to other use cases, regions and crops to 
 provide a dynamic tool easily deployable and updated.
 
-The tool is free and open to be used by anyone to reuse extend or improve upn under the [CC-BY license](https://creativecommons.org/licenses/by/2.0/deed.en).
+The tool is free and open to be used by anyone to reuse extend or improve upn under the [GPL-3.0 license]([https://creativecommons.org/licenses/by/2.0/deed.en](https://www.gnu.org/licenses/gpl-3.0.en.html)).
 Read more about the license in the [license](license.html) section of this documentation.
