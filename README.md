@@ -1,5 +1,7 @@
 # Mashawara: Multi-crop variety and planting window Decision Support Tool
 
+**See the [documentation page](https://egbendito.github.io/mashawara/) for more details.**
+
 The Mashawara (Variety and Planting Window Recommendation) Decision Support Tool (DST)
 aims to provide farmers with spatially explicit recommendations on optimal variety and planting window combinations.
 
