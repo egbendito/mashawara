@@ -141,7 +141,7 @@ if(class  == "historical"){
     # 4.4.1 Execute DSSAT + ETL
     dssat.extdata(coords = gps,
                   sdate = as.character(format(as.Date(start.Date, "%Y%m%d") - 21, "%Y-%m-%d")),
-                  edate = as.character(format(as.Date(end.Date, "%Y%m%d") + 10, "%Y-%m-%d")),
+                  edate = as.character(format(as.Date(end.Date, "%Y%m%d"), "%Y-%m-%d")),
                   jobs = workers,
                   path.to.ex = dssat.intermediate)
     # 4.4.2 Define experiment file
@@ -165,7 +165,7 @@ if(class  == "historical"){
   # 4.4.1 Execute DSSAT + ETL
   dssat.extdata(coords = gps,
                 sdate = as.character(format(as.Date(start.Date, "%Y%m%d") - 21, "%Y-%m-%d")),
-                edate = as.character(format(as.Date(end.Date, "%Y%m%d") + 10, "%Y-%m-%d")),
+                edate = as.character(format(as.Date(end.Date, "%Y%m%d"), "%Y-%m-%d")),
                 jobs = workers,
                 path.to.ex = dssat.intermediate)
   # 4.4.2 Define experiment file
