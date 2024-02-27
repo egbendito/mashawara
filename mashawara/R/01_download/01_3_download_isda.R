@@ -17,7 +17,7 @@ url <- "~/common_data/isda/raw/"
 
 pol <- terra::vect("./data/inputs/main/administrative/roi.gpkg", layer = "roi")
 aoi <- terra::ext(pol)
-ref <- terra::rast("./data/inputs/main/weather/historical/Rainfall/2019.nc")
+ref <- terra::rast(list.files("./data/inputs/main/weather/historical/Rainfall/", full.names = TRUE)[1])
 for (par in c(tex, phy, che)) {
   for (d in dep) {
     lab <- names(dep[dep == d])
