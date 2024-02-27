@@ -1,5 +1,8 @@
 agera5 <- function(startDate, endDate, coordPoints = NULL){
   dates <- seq.Date(as.Date(startDate, format = "%Y-%m-%d"), as.Date(endDate, format = "%Y-%m-%d"), by = "day")
+  data.dates <- format(seq.Date(as.Date(paste0(format(as.Date(startDate), "%Y"), "-01-01"), format = "%Y-%m-%d"),
+                                as.Date(paste0(format(as.Date(endDate), "%Y"), "-12-31"), format = "%Y-%m-%d"),
+                                by = "day"), "%Y%m%d")
   year <- unique(format(dates, "%Y"))
   wind <- terra::rast()
   temp <- terra::rast()
@@ -26,12 +29,12 @@ agera5 <- function(startDate, endDate, coordPoints = NULL){
     else if (grepl("RelativeHumidity", file, fixed = TRUE)){terra::add(rhum) <- terra::rast(file)}
     else if (grepl("SolarRadiation", file, fixed = TRUE)){terra::add(srad) <- terra::rast(file)}
   }
-  names(wind) <- as.character(format(as.Date(terra::time(wind)), "%Y%m%d"))
-  names(temp) <- as.character(format(as.Date(terra::time(temp)), "%Y%m%d"))
-  names(tmin) <- as.character(format(as.Date(terra::time(tmin)), "%Y%m%d"))
-  names(tmax) <- as.character(format(as.Date(terra::time(tmax)), "%Y%m%d"))
-  names(rhum) <- as.character(format(as.Date(terra::time(rhum)), "%Y%m%d"))
-  names(srad) <- as.character(format(as.Date(terra::time(srad)), "%Y%m%d"))
+  names(wind) <- as.character(data.dates)
+  names(temp) <- as.character(data.dates)
+  names(tmin) <- as.character(data.dates)
+  names(tmax) <- as.character(data.dates)
+  names(rhum) <- as.character(data.dates)
+  names(srad) <- as.character(data.dates)
   wind <- wind[[as.character(format(dates, format = "%Y%m%d"))]]
   temp <- temp[[as.character(format(dates, format = "%Y%m%d"))]]
   tmin <- tmin[[as.character(format(dates, format = "%Y%m%d"))]]
