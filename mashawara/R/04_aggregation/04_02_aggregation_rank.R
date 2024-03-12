@@ -53,7 +53,7 @@ rank.aggregate <- function(years = NULL,
   
   ##  Rank (top 3) optimal variety and date by yield
   # initialize output table
-  nn <- data.frame("X" = NA, "Y" = NA, "var" = NA, "pdate" = NA, "rank" = NA)
+  nn <- data.frame("X" = NA, "Y" = NA, "var" = NA, "pdate" = NA, "yield" = NA, "rank" = NA)
   # Find top 3 combinations
   for (rank in 1:3) {
     res <- by(out, list(out$x, out$y), function(x)
@@ -62,6 +62,7 @@ rank.aggregate <- function(years = NULL,
         Y = x$y[rank],
         var = x$var[rev(order(x$yield_mean))][rank],
         pdate = x$pdate_mean[rev(order(x$yield_mean))][rank],
+        yield = x$yield_mean[rev(order(x$yield_mean))][rank],
         rank = rank
       )
     )
