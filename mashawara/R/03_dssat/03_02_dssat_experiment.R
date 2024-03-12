@@ -36,7 +36,7 @@ dssat.Xdata <- function(coords = NULL,
     
     # Define Simulation Controls
     filex$`SIMULATION CONTROLS`$START <- "S"
-    filex$`SIMULATION CONTROLS`$SDATE <- format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
+    filex$`SIMULATION CONTROLS`$SDATE <- format(as.Date(sdate, "%Y-%m-%d") - 30, "%y%j")
     cc <- substr(tools::file_ext(list.files(paste0(root, "/data/inputs/dssat/xfiles"), pattern = as.character(version), full.names = TRUE)), start = 1, stop = 2)
     filex$`SIMULATION CONTROLS`$RSEED <- ifelse(cc == "SB", as.integer(runif(1, 500, 1000)), as.integer(runif(1, 1500, 2500)))
     filex$`SIMULATION CONTROLS`$IRRIG <- "N"
@@ -70,10 +70,10 @@ dssat.Xdata <- function(coords = NULL,
     filex$`SIMULATION CONTROLS`$HARVS <- "M"
     
     # Define planting date
-    pdates <- data.frame(seq(1,length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")), by = 1),
-                         format(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week"), "%y%j"),
+    pdates <- data.frame(seq(1,length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")), by = 1),
+                         format(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week"), "%y%j"),
                          -99,5.3,5.3,"S","R",75,-99,3,-99,-99,-99,-99,-99,
-                         paste0("PD", seq(1:length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")))))
+                         paste0("PD", seq(1:length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")))))
     colnames(pdates) <- colnames(filex$`PLANTING DETAILS`)
     filex$`PLANTING DETAILS` <- pdates
     
@@ -116,7 +116,7 @@ dssat.Xdata <- function(coords = NULL,
     filex$FIELDS$ID_SOIL <- paste0('ISDA', formatC(width = 6, as.integer((pnt-1)), flag = "0"))
     
     # Define the initial conditions
-    filex$`INITIAL CONDITIONS`$ICDAT <- format(as.Date(sdate, "%Y-%m-%d") - 21, "%y%j") # Removing 21 days from the first planting date
+    filex$`INITIAL CONDITIONS`$ICDAT <- format(as.Date(sdate, "%Y-%m-%d") - 30, "%y%j") # Removing 21 days from the first planting date
     filex$`INITIAL CONDITIONS`$ICRT <- 150L
     filex$`INITIAL CONDITIONS`$ICND <- -99
     filex$`INITIAL CONDITIONS`$ICRN <- -99
@@ -139,16 +139,16 @@ dssat.Xdata <- function(coords = NULL,
       filex$CULTIVARS <- v[var,]
       filex$CULTIVARS$C <- 1
       # Define Treatments
-      treat <- data.frame(seq_along(seq(1,length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")), by = 1)),
+      treat <- data.frame(seq_along(seq(1,length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")), by = 1)),
                           1, 1, 0,
                           # Treatment name
-                          paste0(rep(v$INGENO[var], each = length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week"))),
-                                 "_PD_", seq(1:length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")))),
+                          paste0(rep(v$INGENO[var], each = length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week"))),
+                                 "_PD_", seq(1:length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")))),
                           # Cultivar selection
                           # rep(v$C, each=length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week"))),
                           1,
                           1, 0, 1,
-                          seq(1,length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")), by = 1),
+                          seq(1,length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")), by = 1),
                           0, 1, 0, 0, 0, 0, 0, 1)
       colnames(treat) <- colnames(filex$`TREATMENTS                        -------------FACTOR LEVELS------------`)
       filex$`TREATMENTS                        -------------FACTOR LEVELS------------` <- treat
