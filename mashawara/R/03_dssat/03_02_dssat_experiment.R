@@ -9,86 +9,53 @@ dssat.Xdata <- function(coords = NULL,
   doParallel::registerDoParallel(cls)
   #Set working directory to experment directory
   setwd(path.to.ex)
-  # Process Experimental file
+  # Process soil & weather
   foreach::foreach(pnt=seq_along(coords[,1]), .export = ls(globalenv()), .inorder = TRUE, .packages = c("tidyverse", "lubridate")) %dopar% {
     ############################################## MODIFICATION OF EXPERIMENTAL FILES ############################################
     setwd(paste(path.to.ex,paste0('EXTE', formatC(width = 4, (as.integer(pnt)-1), flag = "0")), sep = "/"))
     x = coords[pnt,1]
     y = coords[pnt,2]
-    
     # Write the .MZX file for the location
+    # v <- as.data.frame(DSSAT::read_cul(paste0(root, "/data/inputs/dssat/SBGRO048.CUL")))
+    # v <- as.data.frame(DSSAT::read_cul(paste0(root, "/data/inputs/dssat/culfiles/v", as.character(version), ".CUL")))
     v <- as.data.frame(DSSAT::read_cul(list.files(paste0(root, "/data/inputs/dssat/culfiles"), pattern = as.character(version), full.names = TRUE)))
     v <- data.frame("C" = 1:length(v[[1]]),
                     # "CR" = "MZ",
                     "CR" = substr(tools::file_ext(list.files(paste0(root, "/data/inputs/dssat/xfiles"), pattern = as.character(version), full.names = TRUE)), start = 1, stop = 2),
                     "INGENO" = v[[1]],
                     "CNAME" = v[[2]])
-    
     #Read in template FileX
+    # filex <- DSSAT::read_filex(paste0(root, "/data/inputs/dssat/xfiles/v", as.character(version), ".MZX"))
     filex <- DSSAT::read_filex(list.files(paste0(root, "/data/inputs/dssat/xfiles"), pattern = as.character(version), full.names = TRUE))
-    
     # Define Authorship
-    filex$GENERAL$PEOPLE <- "Mashawara"
+    filex$GENERAL$PEOPLE <- "Eduardo Garcia Bendito"
     filex$GENERAL$ADDRESS <- "Excellence in Agronomy Initiative - CGIAR"
-    
     # Define location
     filex$GENERAL$SITE <- paste(paste0("X=", x), paste0("Y=", y), sep = ", ")
-    
     # Define Simulation Controls
-    filex$`SIMULATION CONTROLS`$START <- "S"
-    filex$`SIMULATION CONTROLS`$SDATE <- format(as.Date(sdate, "%Y-%m-%d") - 30, "%y%j")
+    filex$`SIMULATION CONTROLS`$SDATE <- format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
     cc <- substr(tools::file_ext(list.files(paste0(root, "/data/inputs/dssat/xfiles"), pattern = as.character(version), full.names = TRUE)), start = 1, stop = 2)
     filex$`SIMULATION CONTROLS`$RSEED <- ifelse(cc == "SB", as.integer(runif(1, 500, 1000)), as.integer(runif(1, 1500, 2500)))
     filex$`SIMULATION CONTROLS`$IRRIG <- "N"
     filex$`SIMULATION CONTROLS`$FERTI <- "N"
     filex$`SIMULATION CONTROLS`$RESID <- "N"
-    filex$`SIMULATION CONTROLS`$SMODEL <- ifelse(cc == "SB", as.character("CRGRO"), as.character("MZCER"))
-    
-    # Define Simulation Options
-    filex$`SIMULATION CONTROLS`$WATER <- "Y" # Simulate Water Limited Yield ONLY
-    filex$`SIMULATION CONTROLS`$NITRO <- "N"
-    filex$`SIMULATION CONTROLS`$SYMBI <- "N" 
-    filex$`SIMULATION CONTROLS`$PHOSP <- "N"
-    filex$`SIMULATION CONTROLS`$POTAS <- "N"
-    filex$`SIMULATION CONTROLS`$DISES <- "N"
-    filex$`SIMULATION CONTROLS`$CHEM <- "N"
-    filex$`SIMULATION CONTROLS`$TILL <- "N"
-    filex$`SIMULATION CONTROLS`$CO2 <- "N"
-    
-    # Define Simulation Methods
-    filex$`SIMULATION CONTROLS`$WTHER <- "M"
-    filex$`SIMULATION CONTROLS`$INCON <- "M"
-    filex$`SIMULATION CONTROLS`$EVAPO <- "F"
-    filex$`SIMULATION CONTROLS`$INFIL <- "R"
-    filex$`SIMULATION CONTROLS`$HYDRO <- "R"
-    
-    # Define Simulation Management
-    filex$`SIMULATION CONTROLS`$PLANT <- "R"
-    filex$`SIMULATION CONTROLS`$IRRIG <- "N"
-    filex$`SIMULATION CONTROLS`$FERTI <- "N"
-    filex$`SIMULATION CONTROLS`$RESID <- "N"
-    filex$`SIMULATION CONTROLS`$HARVS <- "M"
-    
-    # Define planting date
-    pdates <- data.frame(seq(1,length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")), by = 1),
-                         format(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week"), "%y%j"),
+    # # Define planting date
+    pdates <- data.frame(seq(1,length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")), by = 1),
+                         format(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week"), "%y%j"),
                          -99,5.3,5.3,"S","R",75,-99,3,-99,-99,-99,-99,-99,
-                         paste0("PD", seq(1:length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")))))
+                         paste0("PD", seq(1:length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")))))
     colnames(pdates) <- colnames(filex$`PLANTING DETAILS`)
     filex$`PLANTING DETAILS` <- pdates
-    
     # Define irrigation
     filex$`IRRIGATION AND WATER MANAGEMENT`$IDEP <- 0
     filex$`IRRIGATION AND WATER MANAGEMENT`$ITHR <- 0
     filex$`IRRIGATION AND WATER MANAGEMENT`$IEPT <- 0
     filex$`IRRIGATION AND WATER MANAGEMENT`$IAMT <- 0
     filex$`IRRIGATION AND WATER MANAGEMENT`$IDATE <- format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
-    
     # Define fertilizer amounts
     fert <- data.frame(1, format(as.Date(sdate, "%Y-%m-%d") + 1, "%y%j"), "FE013", "AP004", 0, 0, 0, 0, 0, 0, "NA", "NA")
     colnames(fert) <- colnames(filex$`FERTILIZERS (INORGANIC)`)
     filex$`FERTILIZERS (INORGANIC)` <- fert
-    
     # Define Automatic management options
     filex$`SIMULATION CONTROLS`$PFRST <- format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
     filex$`SIMULATION CONTROLS`$PLAST <- format(as.Date(edate, "%Y-%m-%d"), "%y%j")
@@ -110,49 +77,41 @@ dssat.Xdata <- function(coords = NULL,
     filex$`SIMULATION CONTROLS`$RIDEP <- 0
     filex$`SIMULATION CONTROLS`$HFRST <- format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
     filex$`SIMULATION CONTROLS`$HLAST <- format(as.Date(edate, "%Y-%m-%d"), "%y%j")
-    
+    # Add SIMULATION CONTROL switches (for WLY and Nutrient)
+    filex$`SIMULATION CONTROLS`$WATER <- "Y"
+    filex$`SIMULATION CONTROLS`$NITRO <- "N"
+    filex$`SIMULATION CONTROLS`$SYMBI <- "N"
+    filex$`SIMULATION CONTROLS`$PHOSP <- "N"
+    filex$`SIMULATION CONTROLS`$POTAS <- "N"
+    filex$`SIMULATION CONTROLS`$DISES <- "N"
+    filex$`SIMULATION CONTROLS`$CHEM <- "N"
+    filex$`SIMULATION CONTROLS`$TILL <- "N"
+    filex$`SIMULATION CONTROLS`$CO2 <- "M"
     # Add SOIL and WTH references to FileX
-    filex$FIELDS$WSTA <- paste0("WHTE", formatC(width = 4, as.integer((pnt-1)), flag = "0"))
-    filex$FIELDS$ID_SOIL <- paste0('ISDA', formatC(width = 6, as.integer((pnt-1)), flag = "0"))
-    
+    filex$FIELDS$WSTA<-paste0("WHTE", formatC(width = 4, as.integer((pnt-1)), flag = "0"))
+    filex$FIELDS$ID_SOIL<-paste0('ISDA', formatC(width = 6, as.integer((pnt-1)), flag = "0"))
     # Define the initial conditions
-    filex$`INITIAL CONDITIONS`$ICDAT <- format(as.Date(sdate, "%Y-%m-%d") - 30, "%y%j") # Removing 21 days from the first planting date
-    filex$`INITIAL CONDITIONS`$ICRT <- 150L
-    filex$`INITIAL CONDITIONS`$ICND <- -99
-    filex$`INITIAL CONDITIONS`$ICRN <- -99
-    filex$`INITIAL CONDITIONS`$ICRE <- -99
-    filex$`INITIAL CONDITIONS`$ICWD <- -99
-    filex$`INITIAL CONDITIONS`$ICRES <- as.integer(runif(1, 1000, 2000))
-    filex$`INITIAL CONDITIONS`$ICREN <- round(1.10, 2)
-    filex$`INITIAL CONDITIONS`$ICREP <- round(0.1, 2)
-    filex$`INITIAL CONDITIONS`$ICRIP <- 0
-    filex$`INITIAL CONDITIONS`$ICRID <- -99
-    filex$`INITIAL CONDITIONS`$ICNAME <- -99
-    filex$`INITIAL CONDITIONS`$SH2O[[1]] <- DSSAT::read_sol("SOIL.SOL")$SDUL #Assume field capacity as initial condition
-    filex$`INITIAL CONDITIONS`$ICBL[[1]] <- DSSAT::read_sol("SOIL.SOL")$SLB
-    filex$`INITIAL CONDITIONS`$SNH4[1] <- filex$`INITIAL CONDITIONS`$SNH4[[1]][1:length(DSSAT::read_sol("SOIL.SOL")$SLB[[1]])]
-    filex$`INITIAL CONDITIONS`$SNO3[1] <- filex$`INITIAL CONDITIONS`$SNO3[[1]][1:length(DSSAT::read_sol("SOIL.SOL")$SLB[[1]])]
-    
+    filex$`INITIAL CONDITIONS`$ICDAT<-format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
     # Prepare the treatment levels of FileX
     for (var in v$C) {
       # Define cultivars
       filex$CULTIVARS <- v[var,]
       filex$CULTIVARS$C <- 1
       # Define Treatments
-      treat <- data.frame(seq_along(seq(1,length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")), by = 1)),
+      treat <- data.frame(seq_along(seq(1,length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")), by = 1)),
                           1, 1, 0,
                           # Treatment name
-                          paste0(rep(v$INGENO[var], each = length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week"))),
-                                 "_PD_", seq(1:length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")))),
+                          paste0(rep(v$INGENO[var], each = length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week"))),
+                                 "_PD_", seq(1:length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")))),
                           # Cultivar selection
                           # rep(v$C, each=length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week"))),
                           1,
                           1, 0, 1,
-                          seq(1,length(seq(as.Date(sdate, "%Y-%m-%d"), as.Date(edate, "%Y-%m-%d"), by = "1 week")), by = 1),
+                          seq(1,length(seq(as.Date(sdate, "%Y-%m-%d") + 1, as.Date(edate, "%Y-%m-%d") - 1, by = "1 week")), by = 1),
                           0, 1, 0, 0, 0, 0, 0, 1)
       colnames(treat) <- colnames(filex$`TREATMENTS                        -------------FACTOR LEVELS------------`)
       filex$`TREATMENTS                        -------------FACTOR LEVELS------------` <- treat
-    
+      # DSSAT::write_filex(filex, paste0("EX",v$INGENO[var],'.MZX'))
       DSSAT::write_filex(filex, paste0("EX", v$INGENO[var], ".", tools::file_ext(list.files(paste0(root, "/data/inputs/dssat/xfiles"), pattern = as.character(version), full.names = TRUE))))
     }
     setwd(path.to.ex)
