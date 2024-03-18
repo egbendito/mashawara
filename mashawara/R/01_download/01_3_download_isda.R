@@ -17,7 +17,7 @@ url <- "~/common_data/isda/raw/"
 
 pol <- terra::vect("./data/inputs/main/administrative/roi.gpkg", layer = "roi")
 aoi <- terra::ext(pol)
-ref <- terra::rast(list.files("./data/inputs/main/weather/historical/Rainfall/", full.names = TRUE)[1])
+ref <- terra::rast("./data/inputs/main/weather/historical/Rainfall/2019.nc")
 for (par in c(tex, phy, che)) {
   for (d in dep) {
     lab <- names(dep[dep == d])
@@ -25,15 +25,15 @@ for (par in c(tex, phy, che)) {
     tif.cog <- paste0(url,lyr)
     if(!file.exists(paste0("./data/inputs/main/soil/isda/", lyr))){
       if(par == "texture.class"){
-        d <- terra::crop(terra::resample(terra::crop(terra::rast(tif.cog), aoi), ref, method = "near", threads = TRUE), aoi)
+        d <- terra::crop(terra::resample(terra::aggregate(terra::crop(terra::rast(tif.cog), aoi), fact = 185, fun = "modal", cores = 2), ref[[1]], method = "near"), aoi)
       }
       else{
-        d <- terra::crop(terra::resample(terra::crop(terra::rast(tif.cog), aoi), ref, method = "average", threads = TRUE), aoi)
+        d <- terra::crop(terra::resample(terra::aggregate(terra::crop(terra::rast(tif.cog), aoi), fact = 185, fun = "mean", cores = 2), ref[[1]], method = "average"), aoi)
       }
       terra::writeRaster(d, paste0("./data/inputs/main/soil/isda/", lyr), gdal = c("COMPRESS=LZW"))
       rm(d)
       gc()
-      cat(paste0("\nCompleted", par, " ", lab))
+      cat(paste0("\nCompleted ", par, " ", lab))
     }
   }
 }
