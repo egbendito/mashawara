@@ -13,7 +13,7 @@ CGIAR system. Independent users might choose to deploy on their own systems. Thi
 or following a more customize build (which will be included in a future release). The basic procedure to install the tool is by cloning the repository.
 This can be done by running `git clone https://github.com/egbendito/mashawara` from a terminal or by downloading the local directory.
 
-[Download Mashawara](https://github.com/egbendito/mashawara/archive/refs/heads/prod.zip){: .btn}
+[Download AgWise](https://github.com/egbendito/mashawara/archive/refs/heads/prod.zip){: .btn}
 
 ## 2. Configuration
 

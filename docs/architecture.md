@@ -6,7 +6,7 @@ nav_order: 3
 
 # Data Architecture
 
-Each instance of the Mashawara DST starts from a similar structure of the *root directory*.
+Each instance of the AgWise DST starts from a similar structure of the *root directory*.
 This space has a specific architecture to facilitate the management and use of the tool,
 and users are encouraged to maintain it or keep it to the extent possible. This design
 facilitates the separation between data and processes. Figure 4 describes the architecture
