@@ -2,7 +2,7 @@ setup.log
 *ipynb_*
 mashawara/data/inputs/main/
 mashawara/data/inputs/user/
-mashawara/data/inputs/culfiles/
-mashawara/data/inputs/xfiles/
+mashawara/data/inputs/dssat/culfiles/
+mashawara/data/inputs/dssat/xfiles/
 mashawara/data/intermediate/
 mashawara/data/outputs/
