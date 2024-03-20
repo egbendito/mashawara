@@ -14,7 +14,7 @@ The recommendations are based on DSSAT v47 using a spatialization framework and 
 ECMWF AgERA5. Additionally, calibrated cultivar coefficients are used to reproduce the local behavior of cultivar varieties in the target area.
 The tool is expected to be updated every cropping season (year), to account for the previous year’s conditions on the recommendations.
 
-In general terms, the DST is composed of 3 main components: inputs, [DSSAT v48](https://dssat.net/) and aggregations.
+In general terms, the DST is composed of 3 main components: inputs, [DSSAT](https://dssat.net/) bindings and aggregations.
 Figure 1 presents the general overview with the 3 main components as well as the different elements and categories in the system.
 These 3 components are sequential, and must be executed in the appropriate order (A, B, C) to produce the expected results.
 Component A refers to the data input requirements to execute the process, B is related to the formatting, set-up and execution of

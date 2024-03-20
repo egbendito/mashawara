@@ -4,39 +4,56 @@ title: Installation
 nav_order: 2
 ---
 
-# Installation
-
-The tool is designed to be deployed in a [CG Labs](https://labs.scio.systems/) like environment under its current deployment in the
-CGIAR system. In subsequent updates the tool will try to rely on cloud available data to make it system agnostic.
-
 ## 1. How to install?
 
-To create an instance of the DST, the user should clone the [GitHub repository](https://github.com/egbendito/mashawarar) and execute
-the following code:
+The tool is designed to be deployed in a [CG Labs](https://labs.scio.systems/) like environment under its current deployment in the
+CGIAR system. Independent users might choose to deploy on their own systems. This can be done through [tenedor](https://github.com/egbendito/tenedor)
+or following a more customize build (which will be included in a future release). The basic procedure to install the tool is by cloning the repository.
+This can be done by running `git clone https://github.com/egbendito/mashawara` from a terminal or by downloading the local directory.
 
-```
-This is a sample block of code
-Here the ./setup.sh should go. Look at github repo
-```
+[Download Mashawara](https://github.com/egbendito/mashawara/archive/refs/heads/prod.zip){: .btn}
 
 ## 2. Configuration
 
-Users can compile their own version by cloning the repo and running
+Once cloned, the tool needs to be configured to the desired region of interest. This is done by indicating the ISO3 codes of 1 or more countries as arguments.
+For example to deploy an instance focusing on Kenya, Ethiopia and Tanzania:
+
 ```
-remotes::install_github("reagro/carobiner")
-ff <- carobiner::make_carob(path)
+setup.sh KEN ETH TZA
 ```
-where `path` is the folder of the cloned repo (e.g. "d:/github/carob")
 
-You can also compile your own version of the full carob by clicking below
+Alternatively, the user can store a copy of the region of interest (ROI) in [GeoPackage format](https://www.geopackage.org/) (GPKG) and a single layer called "roi".
 
-[Compile Carob](http://www.google.com){: .btn}
+## 3. Requirements
 
-Or compile the CC-BY data below
+Tool dependencies are listed below. When installing the tool directly from the [tenedor](https://github.com/egbendito/tenedor) docker image, all software requirements
+are installed by default. This is the preferred way. For a customized deployment users can clone the repository [GitHub repository](https://github.com/egbendito/mashawarar), which provide the required R packages and Python modules.
 
-[Compile Carob CC-BY](http://www.google.com){: .btn}
+```
+# List of R packages required and versions
+devtools==2.4.5
+utils==4.2.2
+tools==4.2.2
+terra==1.7.46
+sf==1.0.14
+DSSAT==0.0.6
+parallel==4.2.2
+doParallel==1.0.17
+foreach==1.5.2
+tidyverse==2.0.0
+lubridate==1.9.2
+jsonlite==1.8.7
+```
 
-## 3. How to upgrade
+```
+# List of Python modules required and versions
+xarray==2024.2.0
+cdsapi==0.6.1
+numpy==1.26.4
+```
+
+It is necessary to execute the tool inside a Linux Debian-based distro, preferably using Ubuntu 22.04. Additionally, the user needs to provide a [CDS key](https://google.com).
+
+## 4. How to upgrade
 
 In future releases and updates of the tool the user will need to re-start from scratch... But better not do it like that...
-
