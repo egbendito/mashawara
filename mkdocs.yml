@@ -1,5 +1,5 @@
 site_name: 'Mashawara RTD'
-site_description: 'Port of Rad-the-docs for Mashawara DST for SAA Use Case of Excellence in Agronomy.'
+site_description: 'Port of RTD for AgWise DST for Excellence in Agronomy.'
 repo_url: 'https://github.com/egbendito/jekyll-theme-rtd'
 repo_name: 'GitHub'
 docs_dir: 'docs/'

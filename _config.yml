@@ -1,5 +1,5 @@
-title: Read The Docs Mashawara
-description: Port of the Read the Docs theme to Jekyll to use with GitHub Pages.
+title: AgWise RTD
+description: Port of Rad-the-docs for AgWise DST for Excellence in Agronomy.
 
 # Development server config, needed to load some of the content
 webrick:
