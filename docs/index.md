@@ -1,10 +1,10 @@
 ---
 layout: default
-title: AgWise
+title: Mashawara
 nav_order: 1
 ---
 
-# About AgWise
+# About Mashawara
 
 Mashawara stands for "maize advise" in Hausa language of Northern Nigeria. The tool works as stand-alone software aimed to provide
 agronomic advisory for multiple crops on opimal time of planting and variety selection. The DST is based on [DSSAT](https://dssat.net/)

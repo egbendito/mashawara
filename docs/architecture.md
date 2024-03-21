@@ -1,15 +1,15 @@
 ---
 layout: default
-title: Data Architecture
+title: Tool Structure
 nav_order: 3
 ---
 
-# Data Architecture
+# Data Structure
 
-Each instance of the AgWise DST starts from a similar structure of the *root directory*.
+Each instance of the Mashawara DST starts from a similar structure of the *root directory*.
 This space has a specific architecture to facilitate the management and use of the tool,
 and users are encouraged to maintain it or keep it to the extent possible. This design
-facilitates the separation between data and processes. Figure 4 describes the architecture
+facilitates the separation between data and processes. Figure 2 describes the structure
 of the system. It is important to observe the clear separation into 2 main sections:
 data and functions. The folder “data” is the section where the information should be stored,
 and it is described with detail in this entire section. The folder “functions” contains the scripts and
@@ -17,7 +17,7 @@ processes running in the DST and it is described in the [functions](functions.ht
 
 <img width="700" height="500" src="assets/img/str.png">
 
-_Figure 2: Architecture of the SAA DST, containing all the necessary components._
+_Figure 2: Structure of the SAA DST, containing all the necessary components._
 
 ## 1 Inputs
 
