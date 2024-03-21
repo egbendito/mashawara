@@ -5,6 +5,7 @@ nav_order: 5
 ---
 
 # Acknowledgements
+## Acknowledgements
 
 The tools has been co-developed in the context of the Excellence in Agronomy (EiA) initiative from CGIAR for the Sasakawa Nigeria Use Case,
 with partners from Sasakawa Nigeria Foundation; Bayero University of Kano, Nigeria; CIMMYT and IITA. The TRANSFORM workpackage provided
@@ -16,7 +17,7 @@ This tool relies on the kind contributions from multiple public and open source 
 and data products from the [Copernicus Climate Change Service (C3S)](https://cds.climate.copernicus.eu/cdsapp#!/home), [iSDA Soil](https://doi.org/10.1038/s41598-021-85639-y),
 [CHIRPS](https://chc.ucsb.edu/data/chirps) among many others. We truly walk on the shoulders of giants.
 
-# References
+## References
 
 Boogaard, H., Schubert, J., De Wit, A., Lazebnik, J., Hutjes, R., Van der Grijn, G., (2020): Agrometeorological indicators from 1979 to present derived from reanalysis.
 Copernicus Climate Change Service (C3S) Climate Data Store (CDS). [DOI: 10.24381/cds.6c68c9bb](https://doi.org/10.24381/cds.6c68c9bb) (Accessed on <text id="demo"></text>)
