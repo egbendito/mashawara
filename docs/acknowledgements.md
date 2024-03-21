@@ -1,6 +1,6 @@
 ---
 layout: default
-title: License
+title: Acknowledgements
 nav_order: 5
 ---
 
