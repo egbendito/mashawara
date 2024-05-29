@@ -69,18 +69,18 @@ if(!file.exists(paste0(root, "/data/inputs/dssat/culfiles/v", as.character(versi
 # # 2. Install requirements
 packs <- data.frame("package" = c("DSSAT"),
                     "version" = c("0.0.6"))
-ipacks <- installed.packages()
+ipacks <- as.data.frame(installed.packages())
 for (p in 1:nrow(packs)){
   pack <- packs[p,1]
   ver <- packs[p,2]
-  if(pack %in% ipacks[,"Package"] == FALSE){
+  if(!(pack %in% ipacks[,"Package"])){
     cat(paste0("\nInstalling: ", pack, " (ver ", ver, ")\n"))
     devtools::install_version(pack, ver, repos = "https://cloud.r-project.org/")
   }
-  else if(ver != ipacks[ipacks[,"Package"] == pack, "Version"]){
+  else{
     cat(paste0("\nUninstalling and re-installing: ", pack, " (ver ", ver, ")\n"))
-    utils::remove.packages(pack)
-    devtools::install_version(pack, ver, repos = "https://cloud.r-project.org/")
+    utils::remove.packages(pack, lib = ipacks[ipacks$Package == pack, "LibPath"])
+    devtools::install_version(pack, ver, repos = "https://cloud.r-project.org/", force = TRUE, upgrade = "never", quiet = TRUE)
   }
 }
 # 3. Source Functions
