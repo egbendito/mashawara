@@ -22,44 +22,64 @@ dssat.extdata <- function(coords = NULL,
       expr = {
         # # Load inputs functions and isda (isda ++)
         source(paste0(root, "/R/02_etl/02_01_etl_isda.R"))
-        # # Process iSDA data
-        solisda <- get.isda(X = x, Y = y)
-        isda <- isda2dssat(isda = solisda) # from isda2DSSAT.R
-        sol <- DSSAT::read_sol(paste0(root, "/data/inputs/dssat/soil.sol"), id_soil = "IB00720001")
+        source(paste0(root, "/R/02_etl/02_07_etl_isric.R"))
+        # # Process soil data
+        solisda <- isda2dssat(isda = get.isda(X = x, Y = y))
+        solisric <- isric2dssat(isric = get.isric(X = x, Y = y))
+        # Binding iSDA + ISRIC data
+        solis <- rbind(solisda[,1:5], solisric[4:6, 1:5])
+        solis$fertility <- solisda$fcc[1]
+        solis$bd_od <- c(solisda$db_od, solisric$db_od[4:6])
+        solis$clay <- c(solisda$clay, solisric$clay[4:6])
+        solis$sand <- c(solisda$sand, solisric$sand[4:6])
+        solis$silt <- c(solisda$silt, solisric$silt[4:6])
+        solis$albedo <- rep(solisda$SALB[1], nrow(solis))
+        solis$LL15 <- c(solisda$LL15, solisric$LL15[4:6])
+        solis$SAT <- c(solisda$SAT, solisric$SAT[4:6])
+        solis$DUL <- c(solisda$DUL, solisric$DUL[4:6])
+        solis$SRGF <- c(solisda$SRGF, solisric$SRGF[4:6])
+        solis$SSS <- c(solisda$SSS, solisric$SSS[4:6])
+        solis$oc <- c(mean(solisric$oc[1:2], na.rm = TRUE), solisric$oc[3:6])
+        solis$n_tot <- c(solisda$n_tot, solisric$n_tot[4:6])
+        solis$ph_h2o <- c(solisda$ph_h2o, solisric$ph_h2o[4:6])
+        solis$ecec <- c(solisda$ecec, solisric$ecec[4:6])
+        solis$cf <- c(mean(solisric$coarse.fragments[1:2], na.rm = TRUE), solisric$coarse.fragments[3:6])
+        # sol <- DSSAT::read_sol(paste0(root, "/data/inputs/dssat/SOILV47.SOL"), id_soil = "IB00720001") # iSDA only
+        sol <- DSSAT::read_sol(paste0(root, "/data/inputs/dssat/SOILV48.SOL"), id_soil = "IB00830003") # iSDA + ISRIC
         soilid <- dplyr::mutate(sol,
-                                SOURCE="iSDA",
+                                SOURCE="iSDA+ISRIC",
                                 TEXTURE=as.integer(-99),
-                                DEPTH=as.integer(50),
+                                DEPTH=as.integer(200),
                                 DESCRIPTION=as.integer(-99),
                                 SITE=as.integer(-99),
-                                COUNTRY=as.character(isda$ISO[1]),
-                                LAT=round(as.numeric(isda$Y[1]),3),
-                                LONG=round(as.numeric(isda$X[1]),3),
+                                COUNTRY=as.character(solis$ISO[1]),
+                                LAT=round(as.numeric(solis$Y[1]),3),
+                                LONG=round(as.numeric(solis$X[1]),3),
                                 "SCS FAMILY"=as.integer(-99),
                                 SCOM=as.integer(-99),
-                                SALB=round(as.numeric(isda$SALB[1]),2),
-                                SLB=as.integer(isda$depth),
+                                SALB=round(as.numeric(solis$albedo[1]),2),
+                                SLB=as.integer(solis$depth),
                                 # Review after downloading fertility layer:
                                 # https://developers.google.com/earth-engine/datasets/catalog/ISDASOIL_Africa_v1_fcc#bands
                                 # https://github.com/iSDA-Africa/isdasoil-tutorial/blob/main/iSDAsoil-tutorial.ipynb
                                 # TRANSFORM/egb/isda/isda_fcc_download.sh
-                                SLPF=round(as.numeric(isda$fcc[1]),2), # from isda2DSSAT.R
-                                SLMH=rep(as.integer(-99), nrow(isda)),
-                                SLLL=isda$LL15,
-                                SSAT=isda$SAT,
-                                # SHF=round(as.numeric(isda$SRGF), 2),
-                                SDUL=isda$DUL,
-                                SRGF=round(as.numeric(isda$SRGF), 2),
-                                SSKS=as.integer(isda$SSS),
-                                SBDM=round(as.numeric(isda$db_od), 2),
-                                SLOC=round(as.numeric(isda$oc), 1),
-                                SLCL=round(as.numeric(isda$clay), 0),
-                                SLSI=round(as.numeric(isda$silt), 0),
-                                SLCF=rep(as.integer(-99), nrow(isda)),
-                                SLNI=round(as.numeric(isda$n_tot), 1),
-                                SLHW=round(as.numeric(isda$ph_h2o), 1),
-                                SLHB=rep(as.integer(-99), nrow(isda)),
-                                SCEC=as.integer(isda$ecec))
+                                SLPF=round(as.numeric(solis$fertility[1]),2), # from isda2DSSAT.R
+                                SLMH=rep(as.integer(-99), nrow(solis)),
+                                SLLL=round(solis$LL15, 2),
+                                SSAT=round(solis$SAT, 2),
+                                # SHF=round(as.numeric(solis$SRGF), 2),
+                                SDUL=round(solis$DUL, 2),
+                                SRGF=round(as.numeric(solis$SRGF), 2),
+                                SSKS=round(solis$SSS, 2),
+                                SBDM=round(as.numeric(solis$bd_od), 2),
+                                SLOC=round(as.numeric(solis$oc), 2),
+                                SLCL=round(as.numeric(solis$clay), 0),
+                                SLSI=round(as.numeric(solis$silt), 0),
+                                SLCF=round(as.numeric(solis$cf), 2),
+                                SLNI=round(as.numeric(solis$n_tot), 2),
+                                SLHW=round(as.numeric(solis$ph_h2o), 1),
+                                # SLHB=rep(as.integer(-99), nrow(solis)),
+                                SCEC=as.integer(solis$ecec))
         soilid
       },
       error = function(e){
@@ -76,7 +96,7 @@ dssat.extdata <- function(coords = NULL,
         return(err)
       }
     )
-    s <- dplyr::mutate(s, PEDON=paste0('ISDA', formatC(width = 6, (as.integer(pnt)-1), flag = "0")))
+    s <- dplyr::mutate(s, PEDON=paste0('SO', formatC(width = 6, (as.integer(pnt)-1), flag = "0")))
     DSSAT::write_sol(s, 'SOIL.SOL', append = FALSE)
     ##########################################
     # # Get weather AgERA5 and CHIRPSv2 data
