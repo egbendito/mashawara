@@ -34,12 +34,18 @@ if(class  == "historical"){
   end.Date <- format(as.Date(start.Date, "%Y%m%d")+214, "%Y%m%d")
 }
 
+# Note root directory
+root <- getwd()
+
 # Define version name
 version <- format(Sys.Date(), "%Y%m%d")
 
-# Note root directory
-root <- getwd()
-  # 1.2 Check validity of inputs and necessary files
+# Check if same version of intermediate directory exists and remove it
+if(file.exists(paste0(root, "/data/intermediate/dssat/", "v", version, "/"))){
+    system(paste0("rm -rf ", root, "/data/intermediate/dssat/", "v", version, "/"))
+}
+
+# 1.2 Check validity of inputs and necessary files
     # Check the spatial inputs (either file or a valid state in Nigeria)
 if(grepl(paste0("v", version, ".csv"), aoi)){
   if(!file.exists(paste0(root, "/data/inputs/user/", "v", version, ".csv"))){
@@ -67,9 +73,18 @@ if(!file.exists(list.files(paste0(root, "/data/inputs/dssat/xfiles"), pattern = 
 # Check that the necessary .CUL file with the varieties is there
 if(!file.exists(paste0(root, "/data/inputs/dssat/culfiles/v", as.character(version), ".CUL"))) stop("Please, add an .CUL template")
 # # 2. Install requirements
+# packs <- data.frame("package" = c("DSSAT", "devtools", "utils", "tools", "terra"),
+#                     "version" = c("0.0.6", "2.4.5", "4.3.2", "4.3.2", "1.7-71"))
 packs <- data.frame("package" = c("DSSAT"),
                     "version" = c("0.0.6"))
 ipacks <- as.data.frame(installed.packages())
+# # # # Forcing DSSAT R Package removal
+# for(l in .libPaths()){
+#   if(l %in% ipacks[ipacks$Package == "DSSAT", "LibPath"]){
+#     utils::remove.packages("DSSAT", lib = l)
+#     system(paste0("sudo rm -rf ", l))
+#   }
+# }
 for (p in 1:nrow(packs)){
   pack <- packs[p,1]
   ver <- packs[p,2]
@@ -77,6 +92,11 @@ for (p in 1:nrow(packs)){
     cat(paste0("\nInstalling: ", pack, " (ver ", ver, ")\n"))
     devtools::install_version(pack, ver, repos = "https://cloud.r-project.org/")
   }
+  # else if(!(ver == ipacks[ipacks$Package == pack, "Version"])){
+  #   cat(paste0("\nUninstalling and re-installing: ", pack, " (ver ", ver, ")\n"))
+  #   utils::remove.packages(pack, lib = ipacks[ipacks$Package == pack, "LibPath"])
+  #   devtools::install_version(pack, ver, repos = "https://cloud.r-project.org/", force = TRUE, upgrade = "never", quiet = TRUE)
+  # }
   else{
     cat(paste0("\nUninstalling and re-installing: ", pack, " (ver ", ver, ")\n"))
     utils::remove.packages(pack, lib = ipacks[ipacks$Package == pack, "LibPath"])
@@ -93,7 +113,7 @@ for (func in funcs) {
 # 4. Start DST
   # 4.1 Define the AOI depending on the input by the user
 if(grepl(paste0("v", version, ".csv"), aoi)){
-  gps <- read.csv(paste0(root, "/data/inputs/user/", "v", version, ".csv"))
+  gps <- suppressWarnings(read.csv(paste0(root, "/data/inputs/user/", "v", version, ".csv")))
 } else {
   gps <- define.regions(iso = "NGA", level = 1, resolution = 0.05)
   gps <- gps[gps$NAME_1 == aoi,]
@@ -183,7 +203,7 @@ if(class  == "historical"){
 }
 
   # 4.5 Aggregation
-dir.create(paste0(root, "/data/outputs/"), recursive = TRUE)
+dir.create(paste0(root, "/data/outputs/"), recursive = TRUE, showWarnings = FALSE)
 if(class  == "historical"){
 #     # 4.5.1 Aggregate DSSAT outputs by year
   dssat.aggregate(years = years,
