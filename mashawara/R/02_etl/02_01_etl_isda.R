@@ -29,8 +29,8 @@ get.isda <- function(X = NULL, Y = NULL){
     }
     if (v %in% c("c_tot","log.oc","p_mehlich3","k_mehlich3","ca_mehlich3","ecec")){vv[[1]] <- expm1(vv[[1]] / 10)}
     else if (v == "db_od"){vv[[1]] <- vv[[1]] / 100}
-    else if (v == "n_tot"){vv[[1]] <- expm1(vv[[1]] / 100)}
-    else if (v == "ph_h2o"){vv[[1]] <- vv[[1]] / 10}
+    else if (v == "n_tot"){vv[[1]] <- expm1(vv[[1]] / 100) / 10} # Convert to %
+    else if (v %in% c("ph_h2o")){vv[[1]] <- vv[[1]] / 10}
     else if (v == "texture"){vv[[1]] <- as.character(factor(vv[[1]], levels = c(1:12), labels = c("Clay", "Silty Clay", "Sandy Clay", "Clay Loam", "Silty Clay Loam", "Sandy Clay Loam", "Loam", "Silt Loam", "Sandy Loam", "Silt", "Loamy Sand", "Sand")))}
     soil <- as.data.frame(cbind(soil, vv[[1]]))
     colnames(soil)[length(soil)] <- v
@@ -76,7 +76,7 @@ isda2dssat <- function(isda = NULL){
   # Saturated hydraulic conductivity (cm h1)
   B <- (log(1500) - log(33))/(log(isda$DUL) - log(isda$LL15))
   Lambda <- 1/B
-  isda$SKS <- (1930 * (isda$SAT - isda$DUL)^(3 - Lambda)) * 100
+  isda$SKS <- (193 * (isda$SAT - isda$DUL)^(3 - Lambda))
   isda$SSS <- round(as.numeric(isda$SKS), digits = 1)
   # Albedo (unitless)
   isda$SALB <- ifelse(isda$texture %in% c("Clay", "Silty Clay", "Silty Clay Loam", "Silt Loam"), 0.12,

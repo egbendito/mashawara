@@ -89,7 +89,7 @@ dssat.Xdata <- function(coords = NULL,
     filex$`SIMULATION CONTROLS`$CO2 <- "M"
     # Add SOIL and WTH references to FileX
     filex$FIELDS$WSTA<-paste0("WHTE", formatC(width = 4, as.integer((pnt-1)), flag = "0"))
-    filex$FIELDS$ID_SOIL<-paste0('ISDA', formatC(width = 6, as.integer((pnt-1)), flag = "0"))
+    filex$FIELDS$ID_SOIL<-paste0('SO', formatC(width = 6, as.integer((pnt-1)), flag = "0"))
     # Define the initial conditions
     filex$`INITIAL CONDITIONS`$ICDAT<-format(as.Date(sdate, "%Y-%m-%d"), "%y%j")
     # Prepare the treatment levels of FileX
