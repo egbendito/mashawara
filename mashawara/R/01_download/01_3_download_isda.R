@@ -24,15 +24,14 @@ for (par in c(tex, phy, che)) {
     lyr <- paste("sol",par,"m_30m",d,"2001..2017_v0.13_wgs84.tif",sep = "_")
     tif.cog <- paste0(url,lyr)
     if(!file.exists(paste0("./data/inputs/main/soil/isda/", lyr))){
+      sg.source <- terra::crop(terra::rast(tif.cog), aoi)
       if(par == "texture.class"){
-        sg.source <- terra::crop(tif.cog, aoi)
         d <- terra::crop(terra::resample(terra::aggregate(sg.source,
                                                           fact = (terra::res(ref)[[1]]/terra::res(sg.source)[[1]]),
                                                           fun = "modal", cores = 2), ref[[1]], method = "near"), aoi)
         # d <- terra::crop(terra::resample(terra::aggregate(terra::crop(terra::rast(tif.cog), aoi), fact = 185, fun = "modal", cores = 2), ref[[1]], method = "near"), aoi)
       }
       else{
-        sg.source <- terra::crop(tif.cog, aoi)
         d <- terra::crop(terra::resample(terra::aggregate(sg.source,
                                                           fact = (terra::res(ref)[[1]]/terra::res(sg.source)[[1]]),
                                                           fun = "mean", cores = 2), ref[[1]], method = "average"), aoi)
