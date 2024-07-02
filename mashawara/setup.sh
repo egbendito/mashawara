@@ -6,6 +6,7 @@ Rscript R/01_download/01_5_download_chirts.R >> setup.log 2>&1
 Rscript R/01_download/01_2_download_chirps.R >> setup.log 2>&1
 Rscript R/01_download/01_1_download_agera5.R >> setup.log 2>&1
 Rscript R/01_download/01_3_download_isda.R >> setup.log 2>&1
+Rscript R/01_download/01_31_download_isric.R >> setup.log 2>&1
 
 # Add python requirements
 onda install -y -c conda-forge cdsapi

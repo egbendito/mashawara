@@ -3,8 +3,8 @@ dep <- c("5" = "0-5", "15" = "5-15", "30" = "15-30", "60" = "30-60", "100" = "60
 par <- c("bulk-density" = "bdod", "cation-exchange-capacity" = "cec", "coarse-fragments" = "cfvo", "clay" = "clay", "nitrogen" = "nitrogen", "carbon-density" = "ocd", "ph" = "phh2o", "sand" = "sand", "silt" = "silt", "organic-carbon" = "soc")
 origin<- getwd()
 
-cat('\n#############################################################################')
-cat('\nstarted SoilGrids (ISRIC')
+cat('\n#############################################################################\n')
+cat('\nstarted SoilGrids (ISRIC\n')
 
 url <- "~/common_data/soilgrids/raw"
 
@@ -32,4 +32,4 @@ system(paste0("gdal_translate -of netcdf ./data/inputs/main/soil/isric/isric.vrt
 
 setwd(origin)
 
-cat('\n Succesfully completed SoilGrids (ISRIC) download')
+cat('\n Succesfully completed SoilGrids (ISRIC) download\n')

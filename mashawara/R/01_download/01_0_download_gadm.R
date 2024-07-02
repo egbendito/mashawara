@@ -1,5 +1,4 @@
-# Solidaridad countries
-iso <- c("KEN")
+iso <- c("KEN") # Add your country ISO3 codes here
 
 origin<- getwd()
 
@@ -32,5 +31,5 @@ if(!file.exists("./data/inputs/main/administrative/roi.gpkg")){
 
 setwd(origin)
 
-cat('Succesfully completed GADM download')
+cat('Succesfully completed GADM download\n')
 

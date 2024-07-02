@@ -7,8 +7,8 @@ bb <- terra::ext(pol)
 origin<- getwd()
 print(origin)
 
-cat('\n#############################################################################')
-cat('\nstarted CHIRTS')
+cat('\n#############################################################################\n')
+cat('\nstarted CHIRTS\n')
 
 for (i in seq_along(vars)) {
   vname <- names(vars[i])
@@ -26,4 +26,4 @@ for (i in seq_along(vars)) {
 
 setwd(origin)
 
-cat('\nSuccesfully completed CHIRTS download')
+cat('\nSuccesfully completed CHIRTS download\n')
