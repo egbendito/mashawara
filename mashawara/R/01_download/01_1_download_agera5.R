@@ -24,4 +24,4 @@ for (i in seq_along(vars)) {
 
 setwd(origin)
 
-cat('\nSuccesfully completed AgERA5 download')
+cat('\nSuccesfully completed AgERA5 download\n')

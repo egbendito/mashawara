@@ -10,8 +10,8 @@ che <- c("carbon_total"="log.c_tot","carbon_organic"="log.oc",
          "cation_exchange_capacity"="log.ecec.f")
 origin<- getwd()
 
-cat('\n#############################################################################')
-cat('\nstarted iSDA')
+cat('\n#############################################################################\n')
+cat('\nstarted iSDA\n')
 
 url <- "~/common_data/isda/raw/"
 
@@ -62,4 +62,4 @@ system(paste0("gdal_translate -of netcdf ./data/inputs/main/soil/isda/isda.vrt .
 
 setwd(origin)
 
-cat('\n Succesfully completed iSDA download')
+cat('\n Succesfully completed iSDA download\n')

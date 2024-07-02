@@ -18,5 +18,5 @@ dir.create(path = paste0("./data/outputs/"), recursive = TRUE, showWarnings = FA
 
 setwd(origin)
 
-cat('\nData structure created')
+cat('\nData structure created\n')
 
