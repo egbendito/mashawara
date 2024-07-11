@@ -1,6 +1,6 @@
 get.isda <- function(X = NULL, Y = NULL){
   isda <- terra::rast(paste0(root, "/data/inputs/main/soil/isda/isda.nc"))
-  vars <- c("fcc","clay","sand","silt","texture","db_od","ph_h2o","c_tot","oc","n_tot","p_mehlich3","k_mehlich3","ca_mehlich3","ecec")
+  vars <- c("fcc","clay","sand","silt","texture.class","db","ph","log.c","log.oc","log.n","log.p","log.k","log.ecec.f")
   url <- paste0(root, "/data/inputs/main/soil/isda/")
   names(isda) <- gsub(".tif", "", basename(list.files(url, pattern = ".tif")))
   # Load info
@@ -15,6 +15,7 @@ get.isda <- function(X = NULL, Y = NULL){
   isda[[which(grepl("fcc", names(isda), fixed = TRUE))]] <- isda[[grepl("fcc", names(isda), fixed = TRUE)]] %% 3000
   isda[[which(grepl("fcc", names(isda), fixed = TRUE))]] <- terra::classify(isda[[grepl("fcc", names(isda), fixed = TRUE)]], cbind(fcc.atts$Value, fcc.atts$SLPF))
   q <- terra::extract(isda, data.frame(x = X, y = Y), xy = TRUE)
+  q <- q[,colnames(q)[!grepl("ca", colnames(q), fixed = TRUE)]]
   n <- 1
   for (v in vars) {
     out <- NULL
@@ -27,11 +28,11 @@ get.isda <- function(X = NULL, Y = NULL){
       colnames(vv) <- v
       row.names(vv)<-c("0-20", "20-50")
     }
-    if (v %in% c("c_tot","log.oc","p_mehlich3","k_mehlich3","ca_mehlich3","ecec")){vv[[1]] <- expm1(vv[[1]] / 10)}
-    else if (v == "db_od"){vv[[1]] <- vv[[1]] / 100}
-    else if (v == "n_tot"){vv[[1]] <- expm1(vv[[1]] / 100) / 10} # Convert to %
-    else if (v %in% c("ph_h2o")){vv[[1]] <- vv[[1]] / 10}
-    else if (v == "texture"){vv[[1]] <- as.character(factor(vv[[1]], levels = c(1:12), labels = c("Clay", "Silty Clay", "Sandy Clay", "Clay Loam", "Silty Clay Loam", "Sandy Clay Loam", "Loam", "Silt Loam", "Sandy Loam", "Silt", "Loamy Sand", "Sand")))}
+    if (v %in% c("c_tot","log.oc","log.p","log.k","log.ecec.f")){vv[[1]] <- expm1(vv[[1]] / 10)}
+    else if (v == "db"){vv[[1]] <- vv[[1]] / 100}
+    else if (v == "log.n"){vv[[1]] <- expm1(vv[[1]] / 100) / 10} # Convert to %
+    else if (v %in% c("ph")){vv[[1]] <- vv[[1]] / 10}
+    else if (v == "texture.class"){vv[[1]] <- as.character(factor(vv[[1]], levels = c(1:12), labels = c("Clay", "Silty Clay", "Sandy Clay", "Clay Loam", "Silty Clay Loam", "Sandy Clay Loam", "Loam", "Silt Loam", "Sandy Loam", "Silt", "Loamy Sand", "Sand")))}
     soil <- as.data.frame(cbind(soil, vv[[1]]))
     colnames(soil)[length(soil)] <- v
   }
@@ -44,7 +45,7 @@ isda2dssat <- function(isda = NULL){
   isda$DUL <- {
     clay <- as.numeric(isda$clay) * 1e-2
     sand <- as.numeric(isda$sand) * 1e-2
-    om <- (as.numeric(isda$oc) * 1e-2) * 2
+    om <- (as.numeric(isda$log.oc) * 1e-2) * 2
     ans0 <- -0.251 * sand + 0.195 * clay + 0.011 * om + 0.006 * (sand * om) - 0.027 * (clay * om) + 0.452 * (sand * clay) + 0.299
     ans <- ans0 + (1.283 * ans0^2 - 0.374 * ans0 - 0.015)
     ans
@@ -53,7 +54,7 @@ isda2dssat <- function(isda = NULL){
   DUL_S <- {
     clay <- as.numeric(isda$clay) * 1e-2
     sand <- as.numeric(isda$sand) * 1e-2
-    om <- (as.numeric(isda$oc) * 1e-2) * 2
+    om <- (as.numeric(isda$log.oc) * 1e-2) * 2
     ans0 <- 0.278 * sand + clay * 0.034 + om * 0.022 + -0.018 * sand * om - 0.027 * clay * om + -0.584 * sand * clay + 0.078
     ans <- ans0 + (0.636 * ans0 - 0.107)
     ans
@@ -62,7 +63,7 @@ isda2dssat <- function(isda = NULL){
   isda$LL15 <- {
     clay <- as.numeric(isda$clay) * 1e-2
     sand <- as.numeric(isda$sand) * 1e-2
-    om <- (as.numeric(isda$oc) * 1e-2) * 2
+    om <- (as.numeric(isda$log.oc) * 1e-2) * 2
     ans0 <- -0.024 * sand + 0.487 * clay + 0.006 * om + 0.005 * sand * om + 0.013 *clay * om + 0.068 *sand * clay +  0.031
     ans <- ans0 + (0.14 * ans0 - 0.02)
     ans
