@@ -12,6 +12,10 @@ get.isda <- function(X = NULL, Y = NULL){
   fcc.atts$Class <- lengths(regmatches(fcc.atts$Description, gregexpr(",", fcc.atts$Description))) + 1
   fcc.atts$Class <- ifelse(fcc.atts$Description == "No constraints", 0, fcc.atts$Class)
   fcc.atts$SLPF <- (fcc.atts$Class  - max(fcc.atts$Class))/(min(fcc.atts$Class) - max(fcc.atts$Class))
+    
+  # Rescaling to 0.8 - 0.2 SLPF
+  fcc.atts$SLPF <- ((fcc.atts$SLPF - min(fcc.atts$SLPF))/(max(fcc.atts$SLPF) - min(fcc.atts$SLPF))*(0.8-0.2)+0.2)
+  
   isda[[which(grepl("fcc", names(isda), fixed = TRUE))]] <- isda[[grepl("fcc", names(isda), fixed = TRUE)]] %% 3000
   isda[[which(grepl("fcc", names(isda), fixed = TRUE))]] <- terra::classify(isda[[grepl("fcc", names(isda), fixed = TRUE)]], cbind(fcc.atts$Value, fcc.atts$SLPF))
   q <- terra::extract(isda, data.frame(x = X, y = Y), xy = TRUE)
