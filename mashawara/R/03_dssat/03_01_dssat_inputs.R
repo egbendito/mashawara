@@ -29,7 +29,7 @@ dssat.extdata <- function(coords = NULL,
         # Binding iSDA + ISRIC data
         solis <- rbind(solisda[,1:5], solisric[4:6, 1:5])
         solis$fertility <- solisda$fcc[1]
-        solis$bd_od <- c(solisda$db_od, solisric$db_od[4:6])
+        solis$bd_od <- c(solisda$db, solisric$db_od[4:6])
         solis$clay <- c(solisda$clay, solisric$clay[4:6])
         solis$sand <- c(solisda$sand, solisric$sand[4:6])
         solis$silt <- c(solisda$silt, solisric$silt[4:6])
@@ -40,9 +40,9 @@ dssat.extdata <- function(coords = NULL,
         solis$SRGF <- c(solisda$SRGF, solisric$SRGF[4:6])
         solis$SSS <- c(solisda$SSS, solisric$SSS[4:6])
         solis$oc <- c(mean(solisric$oc[1:2], na.rm = TRUE), solisric$oc[3:6])
-        solis$n_tot <- c(solisda$n_tot, solisric$n_tot[4:6])
-        solis$ph_h2o <- c(solisda$ph_h2o, solisric$ph_h2o[4:6])
-        solis$ecec <- c(solisda$ecec, solisric$ecec[4:6])
+        solis$n_tot <- c(solisda$log.n, solisric$n_tot[4:6])
+        solis$ph_h2o <- c(solisda$ph, solisric$ph_h2o[4:6])
+        solis$ecec <- c(solisda$log.ecec.f, solisric$ecec[4:6])
         solis$cf <- c(mean(solisric$coarse.fragments[1:2], na.rm = TRUE), solisric$coarse.fragments[3:6])
         # sol <- DSSAT::read_sol(paste0(root, "/data/inputs/dssat/SOILV47.SOL"), id_soil = "IB00720001") # iSDA only
         sol <- DSSAT::read_sol(paste0(root, "/data/inputs/dssat/SOILV48.SOL"), id_soil = "IB00830003") # iSDA + ISRIC
