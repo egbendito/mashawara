@@ -17,7 +17,7 @@ get.isda <- function(X = NULL, Y = NULL){
   fcc.atts$SLPF <- ((fcc.atts$SLPF - min(fcc.atts$SLPF))/(max(fcc.atts$SLPF) - min(fcc.atts$SLPF))*(0.8-0.2)+0.2)
   
   isda[[which(grepl("fcc", names(isda), fixed = TRUE))]] <- isda[[grepl("fcc", names(isda), fixed = TRUE)]] %% 3000
-  isda[[which(grepl("fcc", names(isda), fixed = TRUE))]] <- terra::classify(isda[[grepl("fcc", names(isda), fixed = TRUE)]], cbind(fcc.atts$Value, fcc.atts$SLPF))
+  isda[[which(grepl("fcc", names(isda), fixed = TRUE))]] <- terra::classify(isda[[grepl("fcc", names(isda), fixed = TRUE)]], cbind(fcc.atts$Class, fcc.atts$SLPF))
   q <- terra::extract(isda, data.frame(x = X, y = Y), xy = TRUE)
   q <- q[,colnames(q)[!grepl("ca", colnames(q), fixed = TRUE)]]
   n <- 1
