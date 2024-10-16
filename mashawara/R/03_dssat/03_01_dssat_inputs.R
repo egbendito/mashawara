@@ -63,7 +63,7 @@ dssat.extdata <- function(coords = NULL,
                                 # https://developers.google.com/earth-engine/datasets/catalog/ISDASOIL_Africa_v1_fcc#bands
                                 # https://github.com/iSDA-Africa/isdasoil-tutorial/blob/main/iSDAsoil-tutorial.ipynb
                                 # TRANSFORM/egb/isda/isda_fcc_download.sh
-                                SLPF=round(as.numeric(solis$fertility[1]),2), # from isda2DSSAT.R
+                                SLPF=round(mean(solis$fertility, na.rm = TRUE),2), # from isda2DSSAT.R
                                 SLMH=rep(as.integer(-99), nrow(solis)),
                                 SLLL=round(solis$LL15, 2),
                                 SSAT=round(solis$SAT, 2),
