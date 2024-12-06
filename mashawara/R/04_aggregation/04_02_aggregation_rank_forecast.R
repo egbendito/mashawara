@@ -2,7 +2,7 @@ rank.aggregate.forecast <- function(years = NULL,
                                     jobs = 1,
                                     path.to.ex = NULL){
   for (year in years) {
-    t <- data.table::fread(paste0(path.to.ex, "/", year, "/dssat_aggregate_", year, ".csv"))
+    t <- data.table::fread(paste0(path.to.ex, "/", year, "/dssat_aggregate.csv"))
     if(tail(t$pweek, n = 1) != 52){
       t$pweek <- t$pweek + 1
     }
