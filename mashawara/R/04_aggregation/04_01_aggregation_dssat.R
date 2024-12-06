@@ -34,7 +34,7 @@ dssat.aggregate <- function(years = NULL,
       }
     gc()
     out <- do.call("rbind", unlist(out, recursive = FALSE))
-    write.table(out, paste0(path.to.ex, "/", year, "/dssat_aggregate_", year, ".csv"), sep = ",", row.names = FALSE)
+    write.table(out, paste0(path.to.ex, "/", year, "/dssat_aggregate.csv"), sep = ",", row.names = FALSE)
   }
   stopCluster(cls)
 }
