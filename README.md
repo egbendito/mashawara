@@ -25,13 +25,13 @@ chmod +x setup.sh
 
 2.Run the script to prepare the data directory structure and the data:
 
-Before is necessary to edit the `R/01_0_download_gadm.R` which downloads GADM data and edit the first line with the ISO3 of the country of interest. Then you can run the `setup.sh` script as:
+You can run the `setup.sh` script by indicating the country that you are interested to work on as an argument. This should be one of the [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) country codes. This can be done as:
 
 ```bash
-./setup.sh
+./setup.sh NGA # For example, Federal Republic of Nigeria 🇳🇬
 ```
 
-After this, the `data` directory should contain several sub-directories with more and data in them. You can also check `setup.log` for errors or other messages.
+The `data` directory should contain several sub-directories with more and data in them. You can also check `setup.log` for errors or other messages.
 
 ### 2. Execute DST
 

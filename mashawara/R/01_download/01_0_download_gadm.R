@@ -1,4 +1,5 @@
-iso <- c("KEN") # Add your country ISO3 codes here
+args <- commandArgs()
+iso <- args[8]
 
 origin<- getwd()
 
